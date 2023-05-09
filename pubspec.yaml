@@ -1,0 +1,33 @@
+name: ph_controller_hongphat
+description: A new Flutter project.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.16.2 <3.0.0"
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  get: ^4.3.8
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_secure_storage: ^5.0.2
+  flutter_lints: ^1.0.0
+
+
+flutter:
+
+ 
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+
+  
