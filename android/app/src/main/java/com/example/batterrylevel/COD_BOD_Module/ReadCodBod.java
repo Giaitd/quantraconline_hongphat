@@ -2,6 +2,7 @@ package com.example.batterrylevel.COD_BOD_Module;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 
 import com.example.batterrylevel.Program.Globals;
 
@@ -21,15 +22,18 @@ public class ReadCodBod {
 
                     SdkCodBodModule codBodSDK = new SdkCodBodModule();
                     List<DeviceInfo> devices = SDKLocker.getAllUsbDevicesHasDriver(context);
+
                     for (DeviceInfo each : devices) {
                         boolean connect = codBodSDK.connect(context, each, 9600);
                         if (connect) {
 
                             Globals.getCodBodData = codBodSDK.getCodBodData();
-                            if (SdkCodBodModule.checkReadCod.equals("010308") && SdkCodBodModule.checkReadBod.equals("010304") && SdkCodBodModule.checkReadTss.equals("010318")) {
-                                Globals.bod = Globals.getCodBodData.bod;
-                                Globals.cod = Globals.getCodBodData.cod;
-                                Globals.tss = Globals.getCodBodData.tss;
+                            if (SdkCodBodModule.checkReadCod.equals("080308") && SdkCodBodModule.checkReadBod.equals("080304") && SdkCodBodModule.checkReadTss.equals("080304")) {
+
+                                Globals.bod = Math.round(Globals.getCodBodData.bod * 100) / 100.0;
+                                Globals.cod = Math.round(Globals.getCodBodData.cod * 100) / 100.0;
+                                Globals.tss = Math.round(Globals.getCodBodData.tss * 100) / 100.0;
+
 
                             } else {
                                 Globals.bod = -1.0;

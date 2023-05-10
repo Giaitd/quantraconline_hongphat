@@ -114,9 +114,9 @@ class Globals extends GetxService {
       tss.value = getDataValues['getTss'];
       nh4.value = getDataValues['getNh4'];
 
-      valueDO0.value = getDataValues['getDO0'];
-      valueDO1.value = getDataValues['getDO1'];
-      valueDO2.value = getDataValues['getDO2'];
+      // valueDO0.value = getDataValues['getDO0'];
+      // valueDO1.value = getDataValues['getDO1'];
+      // valueDO2.value = getDataValues['getDO2'];
     } on PlatformException catch (e) {
       print(e);
     }

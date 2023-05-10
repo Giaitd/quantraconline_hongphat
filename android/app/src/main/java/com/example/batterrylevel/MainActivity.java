@@ -36,8 +36,8 @@ public class MainActivity extends FlutterActivity {
     @Override
     public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
         super.configureFlutterEngine(flutterEngine);
-        timerGetPH1.schedule(ReadPH.getPHTask1(getApplicationContext()), 0, 2000);
-        timerGetCodBod.schedule(ReadCodBod.getCodBodTask(getApplicationContext()), 100, 2000);
+        timerGetPH1.schedule(ReadPH.getPHTask(getApplicationContext()), 0, 3000);
+        timerGetCodBod.schedule(ReadCodBod.getCodBodTask(getApplicationContext()), 100, 3000);
 //         timerGetDIDO.schedule(ReadDIDO.getDIDOTask(getApplicationContext()), 100, 2000);
         // timerControlOutput.schedule(ControlOutput.controlOutputTask(getApplicationContext()), 200, 2000);
         // timerSetID.schedule(SetID.changeID(getApplicationContext()),300,1000);
@@ -70,10 +70,10 @@ public class MainActivity extends FlutterActivity {
                         arg2.put("getCod", Globals.cod);
                         arg2.put("getBod", Globals.bod);
                         arg2.put("getTss", Globals.tss);
-                        arg2.put("getNH4", Globals.nh4);
-                        arg2.put("getDO0", Globals.dOData.valueDO0);
-                        arg2.put("getDO1", Globals.dOData.valueDO1);
-                        arg2.put("getDO2", Globals.dOData.valueDO2);
+                        arg2.put("getNh4", Globals.nh4);
+                        // arg2.put("getDO0", Globals.dOData.valueDO0);
+                        // arg2.put("getDO1", Globals.dOData.valueDO1);
+                        // arg2.put("getDO2", Globals.dOData.valueDO2);
 
                         result.success(arg2);
                     } else {

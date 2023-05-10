@@ -10,7 +10,7 @@ import asim.sdk.locker.SDKLocker;
 
 public class ReadPH {
 
-    public static TimerTask getPHTask1(Context context) {
+    public static TimerTask getPHTask(Context context) {
         Handler mTimerHandler = new Handler();
         return new TimerTask() {
             public void run() {
