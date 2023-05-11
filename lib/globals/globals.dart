@@ -1,8 +1,12 @@
 // ignore_for_file: unrelated_type_equality_checks
 
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:mqtt_client/mqtt_client.dart';
+import 'package:mqtt_client/mqtt_server_client.dart';
 
 class Globals extends GetxService {
   RxDouble sizeDevice = 1.0.obs;
@@ -13,6 +17,14 @@ class Globals extends GetxService {
   RxBool setID = false.obs;
   RxBool offSetID = false.obs;
   RxBool lockDevice = true.obs;
+
+  //data setup
+  RxDouble pHMinSet = 6.5.obs;
+  RxDouble pHMaxSet = 8.5.obs;
+  RxDouble codSet = 100.0.obs;
+  RxDouble bodSet = 50.0.obs;
+  RxDouble tssSet = 100.0.obs;
+  RxDouble nh4Set = 10.0.obs;
 
   //data quan trắc
   RxDouble pH = 7.0.obs;
@@ -36,32 +48,34 @@ class Globals extends GetxService {
   List<bool> q3 = List.filled(5, false);
 
   /// //data save for setup parameter
-  //pH1
   Map<String, dynamic> mapSetup = {
     //ph1
-    "axitSet1": "7.1",
-    "bazoSet1": "6.1",
-    "alarmSet1": "0.1",
-    "controlAxit1": "1",
-    "controlBazo1": "1",
+    "pHMinSet": "6.5",
+    "pHMaxSet": "8.5",
+    "codSet": "100.0",
+    "bodSet": "50.0",
+    "tssSet": "100.0",
+    "nh4Set": "10.0",
   }.obs;
 
   List<String> keySetup = [
-    //pH1
-    "axitSet1",
-    "bazoSet1",
-    "alarmSet1",
-    "controlAxit1",
-    "controlBazo1",
+    "pHMinSet",
+    "pHMaxSet",
+    "codSet",
+    "bodSet",
+    "tssSet",
+    "nh4Set",
   ].obs;
 
   @override
   void onInit() {
     super.onInit();
+    mqttConnect();
 
-    Timer.periodic(const Duration(milliseconds: 1000), (timer) {
+    Timer.periodic(const Duration(milliseconds: 2000), (timer) {
       _getData();
       _convertData();
+      publishMqtt();
     });
   }
 
@@ -69,21 +83,22 @@ class Globals extends GetxService {
 
   static const platform = MethodChannel('giaitd.com/data');
 
-  //set data to native code
+  //send data setup to native code
   Future<void> setData() async {
-    // var sendDataToNative = <String, dynamic>{
-    //   //pH1
-    //   "axitSet1": double.parse(mapSetup["axitSet1"]),
-    //   "bazoSet1": double.parse(mapSetup["bazoSet1"]),
-    //   "controlAxit1": int.parse(mapSetup["controlAxit1"]),
-    //   "controlBazo1": int.parse(mapSetup["controlBazo1"]),
-    // };
+    var sendDataToNative = <String, dynamic>{
+      "pHMinSet": double.parse(mapSetup["pHMinSet"]),
+      "pHMaxSet": double.parse(mapSetup["pHMaxSet"]),
+      "codSet": double.parse(mapSetup["codSet"]),
+      "bodSet": double.parse(mapSetup["bodSet"]),
+      "tssSet": double.parse(mapSetup["tssSet"]),
+      "nh4Set": double.parse(mapSetup["nh4Set"]),
+    };
 
-    // try {
-    //   await platform.invokeMethod('dataToNative', sendDataToNative);
-    // } on PlatformException catch (e) {
-    //   print(e);
-    // }
+    try {
+      await platform.invokeMethod('dataToNative', sendDataToNative);
+    } on PlatformException catch (e) {
+      print(e);
+    }
   }
 
   // Future<void> setupID() async {
@@ -114,9 +129,9 @@ class Globals extends GetxService {
       tss.value = getDataValues['getTss'];
       nh4.value = getDataValues['getNh4'];
 
-      // valueDO0.value = getDataValues['getDO0'];
-      // valueDO1.value = getDataValues['getDO1'];
-      // valueDO2.value = getDataValues['getDO2'];
+      valueDO0.value = getDataValues['getDO0'];
+      valueDO1.value = getDataValues['getDO1'];
+      valueDO2.value = getDataValues['getDO2'];
     } on PlatformException catch (e) {
       print(e);
     }
@@ -128,5 +143,92 @@ class Globals extends GetxService {
       q1[i] = (valueDO1 & (1 << i)) != 0;
       q2[i] = (valueDO2 & (1 << i)) != 0;
     }
+  }
+
+  //mqtt ===============================================================================================================================================================
+  final client = MqttServerClient('broker.emqx.io', '');
+  // final client = MqttServerClient('broker.hivemq.com', '');
+
+  Future<void> mqttConnect() async {
+    print('enable mqtt');
+
+    client.logging(on: true);
+    client.keepAlivePeriod = 20;
+    client.port = 8883;
+    client.secure = true;
+    client.onConnected = onConnected;
+    client.onDisconnected = onDisconnected;
+    // client.pongCallback = pong;
+    client.autoReconnect = true;
+
+    client.onSubscribed = onSubscribed;
+
+    final connMess = MqttConnectMessage()
+        .withClientIdentifier(
+            "androidBoxInfo.value") //must be unique for each device
+        .withWillTopic(
+            'willtopic') // If you set this you must set a will message
+        .withWillMessage('My Will message')
+        .startClean() // Non persistent session for testing
+        .withWillQos(MqttQos.atLeastOnce);
+    print('client connecting....');
+    client.connectionMessage = connMess;
+
+    await client.connect();
+    if (client.connectionStatus!.state == MqttConnectionState.connected) {
+      print('client connected');
+    } else {
+      print(
+          'connection failed - disconnecting, status is ${client.connectionStatus}');
+      client.disconnect();
+      exit(-1);
+    }
+
+    //subscription ========================================================
+
+    String subTopic = "androidBoxInfo.value";
+    client.subscribe(subTopic, MqttQos.atMostOnce);
+
+    /// The client has a change notifier object(see the Observable class) which we then listen to to get
+    /// notifications of published updates to each subscribed topic.
+    client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
+      final recMess = c![0].payload as MqttPublishMessage;
+      final pt =
+          MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
+      Map<String, dynamic> json = jsonDecode(pt);
+    });
+    publishMqtt();
+  }
+
+  //function publish data to mqtt
+  publishMqtt() async {
+    String pubTopic = "20077002/quantracdaura";
+    final builder = MqttClientPayloadBuilder();
+    builder.addString(json.encode({
+      "pH": "${pH.value}",
+      "bod": "${bod.value}",
+      "cod": "${cod.value}",
+      "tss": "${tss.value}",
+      "nh4": "${nh4.value}",
+      "temp": "${temp.value}",
+    }));
+
+    client.subscribe(pubTopic, MqttQos.exactlyOnce);
+
+    print('EXAMPLE::Publishing our topic');
+    client.publishMessage(pubTopic, MqttQos.exactlyOnce, builder.payload!);
+  }
+
+  void onDisconnected() {
+    print('EXAMPLE::OnDisconnected client callback - Client disconnection');
+  }
+
+  void onConnected() {
+    print(
+        'EXAMPLE::OnConnected client callback - Client connection was successful');
+  }
+
+  void onSubscribed(String topic) {
+    print('EXAMPLE::Subscription confirmed for topic $topic');
   }
 }

@@ -13,6 +13,7 @@ dependencies:
 
   get: ^4.3.8
   cupertino_icons: ^1.0.2
+  mqtt_client: ^9.8.1
 
 dev_dependencies:
   flutter_test:

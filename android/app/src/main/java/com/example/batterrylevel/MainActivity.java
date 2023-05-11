@@ -38,8 +38,8 @@ public class MainActivity extends FlutterActivity {
         super.configureFlutterEngine(flutterEngine);
         timerGetPH1.schedule(ReadPH.getPHTask(getApplicationContext()), 0, 3000);
         timerGetCodBod.schedule(ReadCodBod.getCodBodTask(getApplicationContext()), 100, 3000);
-//         timerGetDIDO.schedule(ReadDIDO.getDIDOTask(getApplicationContext()), 100, 2000);
-        // timerControlOutput.schedule(ControlOutput.controlOutputTask(getApplicationContext()), 200, 2000);
+        timerGetDIDO.schedule(ReadDIDO.getDIDOTask(getApplicationContext()), 300, 2000);
+        timerControlOutput.schedule(ControlOutput.controlOutputTask(getApplicationContext()), 400, 2000);
         // timerSetID.schedule(SetID.changeID(getApplicationContext()),300,1000);
 
 
@@ -52,11 +52,13 @@ public class MainActivity extends FlutterActivity {
 
                     //channel
                     if (call.method.equals("dataToNative")) {
-                        //pH1
-//                         Globals.axitSet1 = (double) arg.get("axitSet1");
-//                         Globals.bazoSet1 = (double) arg.get("bazoSet1");
-//                         Globals.controlAxit1 = (int) arg.get("controlAxit1");
-//                         Globals.controlBazo1 = (int) arg.get("controlBazo1");
+
+                        Globals.pHMinSet = (double) arg.get("pHMinSet");
+                        Globals.pHMaxSet = (double) arg.get("pHMaxSet");
+                        Globals.codSet = (double) arg.get("codSet");
+                        Globals.bodSet = (double) arg.get("bodSet");
+                        Globals.nh4Set = (double) arg.get("nh4Set");
+                        Globals.tssSet = (double) arg.get("tssSet");
 
 //                    } else if (call.method.equals("dataToNative9")) {
 //                        //id
@@ -71,9 +73,10 @@ public class MainActivity extends FlutterActivity {
                         arg2.put("getBod", Globals.bod);
                         arg2.put("getTss", Globals.tss);
                         arg2.put("getNh4", Globals.nh4);
-                        // arg2.put("getDO0", Globals.dOData.valueDO0);
-                        // arg2.put("getDO1", Globals.dOData.valueDO1);
-                        // arg2.put("getDO2", Globals.dOData.valueDO2);
+
+                        arg2.put("getDO0", Globals.dOData.valueDO0);
+                        arg2.put("getDO1", Globals.dOData.valueDO1);
+                        arg2.put("getDO2", Globals.dOData.valueDO2);
 
                         result.success(arg2);
                     } else {

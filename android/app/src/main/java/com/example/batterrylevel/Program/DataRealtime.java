@@ -23,12 +23,6 @@ public class DataRealtime {
             e.printStackTrace();
         }
 
-        try{
-            Globals.timerReadRTDData = new Timer();
-            Globals.timerReadRTDData.schedule(Globals.timerReadRTDTask,100,700);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
     }
 
 

@@ -3,6 +3,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
+import 'package:ph_controller_hongphat/view/setup_screen/data_setup.dart';
 
 import '../../globals/globals.dart';
 import '../main_screen/main_screen.dart';
@@ -80,7 +81,7 @@ class _SetupState extends State<SetupScreen> {
                               if (globals.lockDevice.value == false) {
                                 globals.lockDevice.value = true;
                               } else {
-                                PopupScreen().inputPasswordAdvanced(context);
+                                PopupScreen().inputPassword(context);
                               }
                             });
                           },
@@ -100,6 +101,33 @@ class _SetupState extends State<SetupScreen> {
                 SizedBox(
                   height: 680 / sizeDevice,
                   width: 1365 / sizeDevice,
+                  child: Column(children: [
+                    Container(
+                      padding: EdgeInsets.fromLTRB(
+                          35 / sizeDevice, 35 / sizeDevice, 35 / sizeDevice, 0),
+                      child: Text(
+                        "- Thông số cảnh báo: Là giới hạn tối đa của các thông số nước thải mà đầu ra vẫn đảm bảo được tiêu chuẩn thiết kế nước thải loại A, loại B...",
+                        style: TextStyle(
+                          fontSize: 28 / sizeDevice,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(
+                          35 / sizeDevice, 15 / sizeDevice, 35 / sizeDevice, 0),
+                      child: Text(
+                        "- Nếu giá trị quan trắc vượt quá các giới hạn này, hệ thống sẽ gửi thông tin cảnh báo về sở tài nguyên môi trường, về đơn vị sử dụng và nhà sản xuất để có phương án xử lý tiếp theo.",
+                        style: TextStyle(
+                          fontSize: 28 / sizeDevice,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+
+                    // data setup
+                    DataSetup(),
+                  ]),
                 )
               ],
             ),

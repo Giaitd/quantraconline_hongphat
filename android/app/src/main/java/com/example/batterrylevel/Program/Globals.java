@@ -25,9 +25,6 @@ public class Globals {
     public static CodBodData getCodBodData = null;
     public static Nh4Data getNH4Data = null;
 
-    public static Timer timerReadRTDData;
-    public static TimerTask timerReadRTDTask;
-
     public static Timer timerReadDIDOData;
     public static TimerTask timerReadDIDODataTask;
 
@@ -39,6 +36,14 @@ public class Globals {
     public static Double bod = -0.01;
     public static Double tss = -0.01;
     public static Double nh4 = -0.01;
+
+    //data setup from UI
+    public static Double pHMinSet = 6.5;
+    public static Double pHMaxSet = 8.5;
+    public static Double codSet = 100.0;
+    public static Double bodSet = 50.0;
+    public static Double tssSet = 100.0;
+    public static Double nh4Set = 10.0;
 
 
 }

@@ -15,12 +15,12 @@ class SecureStorage extends GetxService {
   //write
   Future<void> writeDataSetup(int i) async {
     List<dynamic> values = [
-      //pH1
-      // globals.axitSet1.value.toString(),
-      // globals.bazoSet1.value.toString(),
-      // globals.alarmSet1.value.toString(),
-      // globals.controlAxit1.value.toString(),
-      // globals.controlBazo1.value.toString(),
+      globals.pHMinSet.value.toString(),
+      globals.pHMaxSet.value.toString(),
+      globals.codSet.value.toString(),
+      globals.bodSet.value.toString(),
+      globals.tssSet.value.toString(),
+      globals.nh4Set.value.toString(),
     ];
     await storage.write(
       key: globals.keySetup[i],

@@ -18,13 +18,13 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
-    // for (int i = 0; i < globals.keySetup.length; i++) {
-    // storage.readDataSetup(i);
-    // }
+    for (int i = 0; i < globals.keySetup.length; i++) {
+      storage.readDataSetup(i);
+    }
 
-    // Future.delayed(const Duration(seconds: 5), (() {
-    //   globals.setData();
-    // }));
+    Future.delayed(const Duration(seconds: 5), (() {
+      globals.setData();
+    }));
   }
 
   @override

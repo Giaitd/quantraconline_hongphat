@@ -28,7 +28,12 @@ public class ControlOutput extends android.app.Service {
                 mTimerHandler.post(new Runnable() {
                     @Override
                     public void run() {
-
+                        if (Globals.tss > Globals.tssSet || Globals.cod > Globals.codSet || Globals.bod > Globals.bodSet
+                                || Globals.nh4 > Globals.nh4Set || Globals.pH < Globals.pHMinSet || Globals.pH > Globals.pHMaxSet) {
+                            SetDO.pumpOn(context);
+                        } else {
+                            SetDO.pumpOff(context);
+                        }
                     }
                 });
             }
