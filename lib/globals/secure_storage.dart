@@ -21,6 +21,7 @@ class SecureStorage extends GetxService {
       globals.bodSet.value.toString(),
       globals.tssSet.value.toString(),
       globals.nh4Set.value.toString(),
+      globals.pubTopicSet.value,
     ];
     await storage.write(
       key: globals.keySetup[i],

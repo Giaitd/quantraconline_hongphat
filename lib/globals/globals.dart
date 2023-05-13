@@ -34,6 +34,9 @@ class Globals extends GetxService {
   RxDouble tss = 75.12.obs;
   RxDouble nh4 = 0.59.obs;
 
+  //topic pub data to app mobile
+  RxString pubTopicSet = "quantracdaura".obs;
+
   //DIDO
   RxInt valueDO0 = 0.obs;
   RxInt valueDO1 = 0.obs;
@@ -56,6 +59,7 @@ class Globals extends GetxService {
     "bodSet": "50.0",
     "tssSet": "100.0",
     "nh4Set": "10.0",
+    "pubTopicSet": "quantracdaura",
   }.obs;
 
   List<String> keySetup = [
@@ -65,6 +69,7 @@ class Globals extends GetxService {
     "bodSet",
     "tssSet",
     "nh4Set",
+    "pubTopicSet",
   ].obs;
 
   @override
@@ -189,8 +194,6 @@ class Globals extends GetxService {
     String subTopic = "androidBoxInfo.value";
     client.subscribe(subTopic, MqttQos.atMostOnce);
 
-    /// The client has a change notifier object(see the Observable class) which we then listen to to get
-    /// notifications of published updates to each subscribed topic.
     client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
       final recMess = c![0].payload as MqttPublishMessage;
       final pt =
@@ -202,7 +205,7 @@ class Globals extends GetxService {
 
   //function publish data to mqtt
   publishMqtt() async {
-    String pubTopic = "20077002/quantracdaura";
+    String pubTopic = mapSetup["pubTopicSet"];
     final builder = MqttClientPayloadBuilder();
     builder.addString(json.encode({
       "pH": "${pH.value}",

@@ -17,8 +17,8 @@ import asim.sdk.locker.DeviceInfo;
 public class SdkCodBodModule {
     public UsbSerialPort usbSerialPort;
     public boolean connected = false;
-    public int READ_WAIT_MILLIS = 500;
-    public int WRITE_WAIT_MILLIS = 500;
+    public int READ_WAIT_MILLIS = 1000;
+    public int WRITE_WAIT_MILLIS = 1000;
     public static String checkReadCod, checkReadBod, checkReadTss;
     UsbDeviceConnection usbConnection;
 
