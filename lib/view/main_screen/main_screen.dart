@@ -25,10 +25,6 @@ class _MainScreenState extends State<MainScreen> {
     for (int i = 0; i < globals.keySetup.length; i++) {
       storage.readDataSetup(i);
     }
-
-    Future.delayed(const Duration(seconds: 5), (() {
-      globals.setData();
-    }));
   }
 
   @override

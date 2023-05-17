@@ -24,7 +24,7 @@ public class ReadPH {
 
                             Globals.getPHData = phSDK.getPHData();
                             if (SdkPHModule.checkReadPH.equals("060308")) {
-                                Globals.pH = Globals.getPHData.pH;
+                                Globals.pH = Globals.getPHData.pH +Globals.offsetpH;
                                 Globals.temp = Globals.getPHData.temp;
                             } else {
                                 Globals.pH = 0.00;

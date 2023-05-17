@@ -37,6 +37,11 @@ public class Globals {
     public static Double tss = -0.01;
     public static Double nh4 = -0.01;
 
+    //offset data
+    public static Double offsetpH = 0.0;
+    public static Double offsetCOD = 0.0;
+    public static Double offsetNH4 = 0.0;
+
     //data setup from UI
     public static Double pHMinSet = 6.5;
     public static Double pHMaxSet = 8.5;

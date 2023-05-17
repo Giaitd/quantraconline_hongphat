@@ -34,6 +34,11 @@ class Globals extends GetxService {
   RxDouble tss = 75.12.obs;
   RxDouble nh4 = 0.59.obs;
 
+  //data offset
+  RxDouble offsetpH = 0.0.obs;
+  RxDouble offsetCOD = 0.0.obs;
+  RxDouble offsetNH4 = 0.0.obs;
+
   //topic pub data to app mobile
   RxString pubTopicSet = "quantracdaura".obs;
 
@@ -60,6 +65,9 @@ class Globals extends GetxService {
     "tssSet": "100.0",
     "nh4Set": "10.0",
     "pubTopicSet": "quantracdaura",
+    "offsetpH": "0.0",
+    "offsetCOD": "0.0",
+    "offsetNH4": "0.0",
   }.obs;
 
   List<String> keySetup = [
@@ -70,6 +78,9 @@ class Globals extends GetxService {
     "tssSet",
     "nh4Set",
     "pubTopicSet",
+    "offsetpH",
+    "offsetCOD",
+    "offsetNH4",
   ].obs;
 
   @override
@@ -78,6 +89,7 @@ class Globals extends GetxService {
     mqttConnect();
 
     Timer.periodic(const Duration(milliseconds: 2000), (timer) {
+      setDataToNative();
       _getData();
       _convertData();
       publishMqtt();
@@ -89,7 +101,7 @@ class Globals extends GetxService {
   static const platform = MethodChannel('giaitd.com/data');
 
   //send data setup to native code
-  Future<void> setData() async {
+  Future<void> setDataToNative() async {
     var sendDataToNative = <String, dynamic>{
       "pHMinSet": double.parse(mapSetup["pHMinSet"]),
       "pHMaxSet": double.parse(mapSetup["pHMaxSet"]),
@@ -97,6 +109,9 @@ class Globals extends GetxService {
       "bodSet": double.parse(mapSetup["bodSet"]),
       "tssSet": double.parse(mapSetup["tssSet"]),
       "nh4Set": double.parse(mapSetup["nh4Set"]),
+      "offsetpH": double.parse(mapSetup["offsetpH"]),
+      "offsetCOD": double.parse(mapSetup["offsetCOD"]),
+      "offsetNH4": double.parse(mapSetup["offsetNH4"]),
     };
 
     try {

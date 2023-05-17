@@ -59,6 +59,9 @@ public class MainActivity extends FlutterActivity {
                         Globals.bodSet = (double) arg.get("bodSet");
                         Globals.nh4Set = (double) arg.get("nh4Set");
                         Globals.tssSet = (double) arg.get("tssSet");
+                        Globals.offsetpH = (double) arg.get("offsetpH");
+                        Globals.offsetCOD = (double) arg.get("offsetCOD");
+                        Globals.offsetNH4 = (double) arg.get("offsetNH4");
 
 //                    } else if (call.method.equals("dataToNative9")) {
 //                        //id

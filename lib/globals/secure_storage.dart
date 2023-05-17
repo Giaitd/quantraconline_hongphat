@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ph_controller_hongphat/globals/globals.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -22,6 +21,9 @@ class SecureStorage extends GetxService {
       globals.tssSet.value.toString(),
       globals.nh4Set.value.toString(),
       globals.pubTopicSet.value,
+      globals.offsetpH.value.toString(),
+      globals.offsetCOD.value.toString(),
+      globals.offsetNH4.value.toString()
     ];
     await storage.write(
       key: globals.keySetup[i],

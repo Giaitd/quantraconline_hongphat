@@ -27,7 +27,7 @@ public class ReadNh4 {
 
                             Globals.getNH4Data = phSDK.getNH4Data();
                             if (SdkNh4Module.checkReadNH4.equals("030308")) {
-                                Globals.nh4 = Globals.getNH4Data.nh4;
+                                Globals.nh4 = Globals.getNH4Data.nh4 + Globals.offsetNH4;
 
                             } else {
                                 Globals.nh4 = -1.0;
