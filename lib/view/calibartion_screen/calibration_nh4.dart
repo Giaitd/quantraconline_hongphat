@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../globals/globals.dart';
@@ -14,6 +16,23 @@ class CalibrationNH4 extends StatefulWidget {
 class _CalibrationNH4State extends State<CalibrationNH4> {
   Globals globals = Get.put(Globals());
   SecureStorage storage = Get.put(SecureStorage());
+  late Timer timer2;
+
+  @override
+  void initState() {
+    super.initState();
+    timer2 = Timer.periodic(const Duration(seconds: 1), (timer) {
+      globals.calibrationNH4();
+      globals.calibNH4Zero.value = false;
+      globals.calibNH4Slope.value = false;
+    });
+  }
+
+  @override
+  void dispose() {
+    timer2.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +54,7 @@ class _CalibrationNH4State extends State<CalibrationNH4> {
             height: 15 / sizeDevice,
           ),
           Text(
-            "- Sử dụng đúng dung dịch dùng để hiệu chuẩn (nếu sử dụng sai dung dịch có thể dẫn đến hỏng hóc không khắc phục được)",
+            "- Sử dụng đúng dung dịch dùng để hiệu chuẩn (nếu sử dụng sai dung dịch có thể dẫn đến hỏng hóc không khắc phục được). Đợi 5 phút để kết quả ổn định sau đó mới hiệu chuẩn nếu sai lệch",
             style: TextStyle(
                 fontSize: 28 / sizeDevice, fontWeight: FontWeight.w500),
           ),
@@ -185,7 +204,16 @@ class _CalibrationNH4State extends State<CalibrationNH4> {
                         // crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              if (globals.lockDevice.value == false) {
+                                setState(() {
+                                  globals.calibNH4Zero.value = true;
+                                  globals.lockDevice.value = true;
+                                });
+                              } else {
+                                PopupScreen().requiredInputPassword(context);
+                              }
+                            },
                             child: Container(
                               height: 100 / sizeDevice,
                               width: 250 / sizeDevice,
@@ -198,13 +226,21 @@ class _CalibrationNH4State extends State<CalibrationNH4> {
                                     "Hiệu chuẩn",
                                     style: TextStyle(
                                         fontSize: 30 / sizeDevice,
-                                        fontWeight: FontWeight.bold),
+                                        fontWeight: FontWeight.bold,
+                                        color:
+                                            globals.calibNH4Zero.value == true
+                                                ? Colors.red
+                                                : Colors.white),
                                   ),
                                   Text(
                                     "điểm 0",
                                     style: TextStyle(
                                         fontSize: 30 / sizeDevice,
-                                        fontWeight: FontWeight.bold),
+                                        fontWeight: FontWeight.bold,
+                                        color:
+                                            globals.calibNH4Zero.value == true
+                                                ? Colors.red
+                                                : Colors.white),
                                   ),
                                 ],
                               ),
@@ -228,7 +264,16 @@ class _CalibrationNH4State extends State<CalibrationNH4> {
                     width: 250 / sizeDevice,
                     child: Column(children: [
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (globals.lockDevice.value == false) {
+                            setState(() {
+                              globals.calibNH4Slope.value = true;
+                              globals.lockDevice.value = true;
+                            });
+                          } else {
+                            PopupScreen().requiredInputPassword(context);
+                          }
+                        },
                         child: Container(
                           height: 100 / sizeDevice,
                           width: 250 / sizeDevice,
@@ -241,13 +286,19 @@ class _CalibrationNH4State extends State<CalibrationNH4> {
                                 "Hiệu chuẩn",
                                 style: TextStyle(
                                     fontSize: 30 / sizeDevice,
-                                    fontWeight: FontWeight.bold),
+                                    fontWeight: FontWeight.bold,
+                                    color: globals.calibNH4Slope.value == true
+                                        ? Colors.red
+                                        : Colors.white),
                               ),
                               Text(
                                 "slope",
                                 style: TextStyle(
                                     fontSize: 30 / sizeDevice,
-                                    fontWeight: FontWeight.bold),
+                                    fontWeight: FontWeight.bold,
+                                    color: globals.calibNH4Slope.value == true
+                                        ? Colors.red
+                                        : Colors.white),
                               ),
                             ],
                           ),

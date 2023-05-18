@@ -115,6 +115,7 @@ class PopupScreen extends StatelessWidget {
             ));
   }
 
+  //thông số nhập sai
   anounDialog(BuildContext context) {
     return showDialog(
         context: context,
@@ -125,8 +126,8 @@ class PopupScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'Roboto Mono',
-                  color: Colors.black,
-                  fontSize: 30 / globals.sizeDevice.value,
+                  color: const Color.fromARGB(255, 255, 0, 0),
+                  fontSize: 36 / globals.sizeDevice.value,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -135,7 +136,7 @@ class PopupScreen extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'Roboto Mono',
                   color: Colors.black,
-                  fontSize: 20 / globals.sizeDevice.value,
+                  fontSize: 26 / globals.sizeDevice.value,
                 ),
               ),
               actions: [
@@ -148,7 +149,7 @@ class PopupScreen extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: 'Roboto Mono',
                       color: Colors.black,
-                      fontSize: 25 / globals.sizeDevice.value,
+                      fontSize: 26 / globals.sizeDevice.value,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -160,6 +161,53 @@ class PopupScreen extends StatelessWidget {
             ));
   }
 
+  //nhập mật khẩu mở khóa trước khi hiệu chuẩn
+  requiredInputPassword(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text(
+                //cảnh báo
+                'Cảnh báo',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'Roboto Mono',
+                  color: const Color.fromARGB(255, 255, 0, 0),
+                  fontSize: 36 / globals.sizeDevice.value,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              content: Text(
+                'Nhập mật khẩu để mở khóa trước khi tiến hành hiệu chuẩn',
+                style: TextStyle(
+                  fontFamily: 'Roboto Mono',
+                  color: Colors.black,
+                  fontSize: 26 / globals.sizeDevice.value,
+                ),
+              ),
+              actions: [
+                OutlinedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'Đồng ý',
+                    style: TextStyle(
+                      fontFamily: 'Roboto Mono',
+                      color: Colors.black,
+                      fontSize: 26 / globals.sizeDevice.value,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  style: ButtonStyle(
+                      padding: MaterialStateProperty.all(
+                          EdgeInsets.all(10 / globals.sizeDevice.value))),
+                )
+              ],
+            ));
+  }
+
+  //password level 1
   inputPassword(BuildContext context) {
     String _password = '';
     return showDialog(
@@ -169,8 +217,8 @@ class PopupScreen extends StatelessWidget {
               children: [
                 TextFormField(
                   textAlign: TextAlign.center,
-                  onChanged: (Text) => {
-                    _password = Text,
+                  onChanged: (text) => {
+                    _password = text,
                     if (_password == '2009')
                       {
                         globals.lockDevice.value = false,
@@ -186,14 +234,14 @@ class PopupScreen extends StatelessWidget {
                       hintStyle: TextStyle(
                         fontFamily: 'Roboto Mono',
                         color: Colors.black,
-                        fontSize: 20 / globals.sizeDevice.value,
+                        fontSize: 24 / globals.sizeDevice.value,
                       ),
                       border: const OutlineInputBorder()),
                   keyboardType: TextInputType.number,
                   style: TextStyle(
                     fontFamily: 'Roboto Mono',
                     color: Colors.black,
-                    fontSize: 30 / globals.sizeDevice.value,
+                    fontSize: 40 / globals.sizeDevice.value,
                     fontWeight: FontWeight.w800,
                   ),
                 )
@@ -211,8 +259,8 @@ class PopupScreen extends StatelessWidget {
               children: [
                 TextFormField(
                   textAlign: TextAlign.center,
-                  onChanged: (Text) => {
-                    _password = Text,
+                  onChanged: (text) => {
+                    _password = text,
                     if (_password == 'Hongphat.2009')
                       {
                         Navigator.push(

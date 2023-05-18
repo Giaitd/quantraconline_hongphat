@@ -2,9 +2,12 @@ package com.example.batterrylevel.PHModule;
 
 import android.content.Context;
 import android.os.Handler;
+
 import com.example.batterrylevel.Program.Globals;
+
 import java.util.List;
 import java.util.TimerTask;
+
 import asim.sdk.locker.DeviceInfo;
 import asim.sdk.locker.SDKLocker;
 
@@ -24,7 +27,7 @@ public class ReadPH {
 
                             Globals.getPHData = phSDK.getPHData();
                             if (SdkPHModule.checkReadPH.equals("060308")) {
-                                Globals.pH = Globals.getPHData.pH +Globals.offsetpH;
+                                Globals.pH = Math.round((Globals.getPHData.pH + Globals.offsetpH) * 100) / 100.0;
                                 Globals.temp = Globals.getPHData.temp;
                             } else {
                                 Globals.pH = 0.00;

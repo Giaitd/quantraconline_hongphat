@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import com.example.batterrylevel.COD_BOD_Module.ReadCodBod;
 import com.example.batterrylevel.DIDOModule.ReadDIDO;
 import com.example.batterrylevel.PHModule.ReadPH;
+import com.example.batterrylevel.Program.Calibration;
 import com.example.batterrylevel.Program.ControlOutput;
 import com.example.batterrylevel.Program.Globals;
 import com.example.batterrylevel.Program.SetID;
@@ -31,7 +32,7 @@ public class MainActivity extends FlutterActivity {
     Timer timerGetCodBod = new Timer();
     Timer timerGetNH4 = new Timer();
     Timer timerGetDIDO = new Timer();
-    Timer timerSetID = new Timer();
+    Timer timerSetCalibration = new Timer();
 
     @Override
     public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
@@ -40,7 +41,7 @@ public class MainActivity extends FlutterActivity {
         timerGetCodBod.schedule(ReadCodBod.getCodBodTask(getApplicationContext()), 100, 3000);
         timerGetDIDO.schedule(ReadDIDO.getDIDOTask(getApplicationContext()), 300, 2000);
         timerControlOutput.schedule(ControlOutput.controlOutputTask(getApplicationContext()), 400, 2000);
-        // timerSetID.schedule(SetID.changeID(getApplicationContext()),300,1000);
+        timerSetCalibration.schedule(Calibration.CalibrationSensor(getApplicationContext()), 300, 1000);
 
 
         new MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), CHANNEL)
@@ -63,11 +64,18 @@ public class MainActivity extends FlutterActivity {
                         Globals.offsetCOD = (double) arg.get("offsetCOD");
                         Globals.offsetNH4 = (double) arg.get("offsetNH4");
 
-//                    } else if (call.method.equals("dataToNative9")) {
-//                        //id
-//                        Globals.idOld = (int) arg.get("idOld");
-//                        Globals.idNew = (int) arg.get("idNew");
-//                        Globals.btnSetId = (boolean) arg.get("btnSetId");
+                    } else if (call.method.equals("dataToNative1")) {
+                        Globals.pHZero = (boolean) arg.get("calibpHZero");
+                        Globals.pHSlopeLo = (boolean) arg.get("calibpHSlopeLo");
+                        Globals.pHSlopeHi = (boolean) arg.get("calibpHSlopeHi");
+
+                    } else if (call.method.equals("dataToNative2")) {
+                        Globals.nh4Zero = (boolean) arg.get("calibNH4Zero");
+                        Globals.nh4Slope = (boolean) arg.get("calibNH4Slope");
+
+                    } else if (call.method.equals("dataToNative3")) {
+                        Globals.codDefault = (boolean) arg.get("calibCODDefault");
+                        Globals.turnOnBrush = (boolean) arg.get("turnOnBrush");
 
                     } else if (call.method.equals("getData")) {
                         arg2.put("getpH", Globals.pH);

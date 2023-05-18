@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../globals/globals.dart';
@@ -14,6 +16,23 @@ class CalibrationCOD extends StatefulWidget {
 class _CalibrationCODState extends State<CalibrationCOD> {
   Globals globals = Get.put(Globals());
   SecureStorage storage = Get.put(SecureStorage());
+  late Timer timer3;
+
+  @override
+  void initState() {
+    super.initState();
+    timer3 = Timer.periodic(const Duration(seconds: 1), (timer) {
+      globals.calibrationCOD();
+      globals.calibCODDefault.value = false;
+      globals.turnOnBrush.value = false;
+    });
+  }
+
+  @override
+  void dispose() {
+    timer3.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +46,15 @@ class _CalibrationCODState extends State<CalibrationCOD> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           //text hướng dẫn
           Text(
-            "- Rửa sạch đầu đo với nước sạch. Sau đó nhúng đầu đo vào nước tinh khiết (nước cất hoặc nước khử ion) đảm bảo phần cảm biến ngập sâu trong nước ít nhất 2 cm. Đợi 1 phút cho giá trị đọc ổn định. Nhập giá trị COD đo được vào cột X.",
+            "- Nhấn nút “Vệ sinh đầu đo” để thiết bị tự vệ sinh. Sau đó rửa sạch đầu đo với nước sạch. ",
+            style: TextStyle(
+                fontSize: 28 / sizeDevice, fontWeight: FontWeight.w500),
+          ),
+          Container(
+            height: 15 / sizeDevice,
+          ),
+          Text(
+            "- Nhúng đầu đo vào nước tinh khiết (nước cất hoặc nước khử ion) đảm bảo phần cảm biến ngập sâu trong nước ít nhất 2 cm. Đợi 1 phút cho giá trị đọc ổn định. Nhập giá trị COD đo được vào cột X.",
             style: TextStyle(
                 fontSize: 28 / sizeDevice, fontWeight: FontWeight.w500),
           ),
@@ -59,7 +86,6 @@ class _CalibrationCODState extends State<CalibrationCOD> {
           //nhập thông số
           Container(
             margin: EdgeInsets.fromLTRB(0, 30 / sizeDevice, 0, 0),
-            // height: 235/sizeDevice,
             child: Row(children: [
               Container(
                 width: 382 / sizeDevice,
@@ -168,53 +194,127 @@ class _CalibrationCODState extends State<CalibrationCOD> {
                 ]),
               ),
               Container(width: 20 / sizeDevice),
-              Container(
-                width: 324 / sizeDevice,
-                height: 235 / sizeDevice,
-                color: const Color.fromARGB(255, 166, 219, 221),
-                child: Container(
-                  margin: EdgeInsets.fromLTRB(
-                      26 / sizeDevice, 26 / sizeDevice, 26 / sizeDevice, 0),
-                  width: 255 / sizeDevice,
-                  child: Column(
-                    children: [
-                      Text("Khôi phục về cài đặt gốc nhà sản xuất",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 26 / sizeDevice,
-                              fontWeight: FontWeight.bold)),
-                      SizedBox(height: 30 / sizeDevice),
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: Container(
-                          height: 100 / sizeDevice,
+              Column(
+                children: [
+                  Container(
+                    width: 324 / sizeDevice,
+                    height: 110 / sizeDevice,
+                    color: const Color.fromARGB(255, 166, 219, 221),
+                    child: Column(
+                      children: [
+                        Container(
                           width: 250 / sizeDevice,
-                          alignment: Alignment.center,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(height: 15 / sizeDevice),
-                              Text(
-                                "Hiệu chuẩn",
-                                style: TextStyle(
-                                    fontSize: 30 / sizeDevice,
-                                    fontWeight: FontWeight.bold),
+                          height: 90 / sizeDevice,
+                          margin: EdgeInsets.fromLTRB(0, 10 / sizeDevice, 0, 0),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (globals.lockDevice.value == false) {
+                                setState(() {
+                                  globals.turnOnBrush.value = true;
+                                  globals.lockDevice.value = true;
+                                });
+                              } else {
+                                PopupScreen().requiredInputPassword(context);
+                              }
+                            },
+                            child: Container(
+                              height: 90 / sizeDevice,
+                              width: 250 / sizeDevice,
+                              alignment: Alignment.center,
+                              // color: const Color(0xFF4657ef),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(height: 10 / sizeDevice),
+                                  Text(
+                                    "Vệ sinh",
+                                    style: TextStyle(
+                                        fontSize: 30 / sizeDevice,
+                                        fontWeight: FontWeight.bold,
+                                        color: globals.turnOnBrush.value == true
+                                            ? Colors.red
+                                            : Colors.white),
+                                  ),
+                                  Text(
+                                    "đầu đo",
+                                    style: TextStyle(
+                                        fontSize: 30 / sizeDevice,
+                                        fontWeight: FontWeight.bold,
+                                        color: globals.turnOnBrush.value == true
+                                            ? Colors.red
+                                            : Colors.white),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                "về mặc định",
-                                style: TextStyle(
-                                    fontSize: 30 / sizeDevice,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
+                            ),
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF4657ef)),
                           ),
                         ),
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF4657ef)),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
+                  SizedBox(height: 15 / sizeDevice),
+                  Container(
+                    width: 324 / sizeDevice,
+                    height: 110 / sizeDevice,
+                    color: const Color.fromARGB(255, 166, 219, 221),
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 250 / sizeDevice,
+                          height: 90 / sizeDevice,
+                          margin: EdgeInsets.fromLTRB(0, 10 / sizeDevice, 0, 0),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (globals.lockDevice.value == false) {
+                                setState(() {
+                                  globals.calibCODDefault.value = true;
+                                  globals.lockDevice.value = true;
+                                });
+                              } else {
+                                PopupScreen().requiredInputPassword(context);
+                              }
+                            },
+                            child: Container(
+                              height: 90 / sizeDevice,
+                              width: 250 / sizeDevice,
+                              alignment: Alignment.center,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(height: 10 / sizeDevice),
+                                  Text(
+                                    "Hiệu chuẩn",
+                                    style: TextStyle(
+                                        fontSize: 30 / sizeDevice,
+                                        fontWeight: FontWeight.bold,
+                                        color: globals.calibCODDefault.value ==
+                                                true
+                                            ? Colors.red
+                                            : Colors.white),
+                                  ),
+                                  Text(
+                                    "về mặc định",
+                                    style: TextStyle(
+                                        fontSize: 30 / sizeDevice,
+                                        fontWeight: FontWeight.bold,
+                                        color: globals.calibCODDefault.value ==
+                                                true
+                                            ? Colors.red
+                                            : Colors.white),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF4657ef)),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
               Container(width: 20 / sizeDevice),
 

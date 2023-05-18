@@ -18,6 +18,17 @@ class Globals extends GetxService {
   RxBool offSetID = false.obs;
   RxBool lockDevice = true.obs;
 
+  //calibration
+  RxBool calibpHZero = false.obs;
+  RxBool calibpHSlopeLo = false.obs;
+  RxBool calibpHSlopeHi = false.obs;
+
+  RxBool calibNH4Zero = false.obs;
+  RxBool calibNH4Slope = false.obs;
+
+  RxBool calibCODDefault = false.obs;
+  RxBool turnOnBrush = false.obs;
+
   //data setup
   RxDouble pHMinSet = 6.5.obs;
   RxDouble pHMaxSet = 8.5.obs;
@@ -121,20 +132,54 @@ class Globals extends GetxService {
     }
   }
 
-  // Future<void> setupID() async {
-  //   var sendDataToNative9 = <String, dynamic>{
-  //     //id
-  //     "idOld": idOld.value,
-  //     "idNew": idNew.value,
-  //     "btnSetId": setID.value,
-  //   };
+  //hiệu chuẩn đầu đo PH
+  Future<void> calibrationPH() async {
+    var sendDataToNative1 = <String, dynamic>{
+      //id
+      // "idOld": idOld.value,
+      // "idNew": idNew.value,
+      // "btnSetId": setID.value,
+      "calibpHZero": calibpHZero.value,
+      "calibpHSlopeLo": calibpHSlopeLo.value,
+      "calibpHSlopeHi": calibpHSlopeHi.value,
+      "calibNH4Zero": calibNH4Zero.value,
+      "calibNH4Slope": calibNH4Slope.value,
+    };
 
-  //   try {
-  //     await platform.invokeMethod('dataToNative9', sendDataToNative9);
-  //   } on PlatformException catch (e) {
-  //     print(e);
-  //   }
-  // }
+    try {
+      await platform.invokeMethod('dataToNative1', sendDataToNative1);
+    } on PlatformException catch (e) {
+      print(e);
+    }
+  }
+
+  //hiệu chuẩn đầu đo NH4
+  Future<void> calibrationNH4() async {
+    var sendDataToNative2 = <String, dynamic>{
+      "calibNH4Zero": calibNH4Zero.value,
+      "calibNH4Slope": calibNH4Slope.value,
+    };
+
+    try {
+      await platform.invokeMethod('dataToNative2', sendDataToNative2);
+    } on PlatformException catch (e) {
+      print(e);
+    }
+  }
+
+  //hiệu chuẩn đầu đo COD
+  Future<void> calibrationCOD() async {
+    var sendDataToNative3 = <String, dynamic>{
+      "calibCODDefault": calibCODDefault.value,
+      "turnOnBrush": turnOnBrush.value,
+    };
+
+    try {
+      await platform.invokeMethod('dataToNative3', sendDataToNative3);
+    } on PlatformException catch (e) {
+      print(e);
+    }
+  }
 
   //get data from native code
   Future<void> _getData() async {

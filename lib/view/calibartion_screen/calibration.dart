@@ -42,7 +42,11 @@ class _CalibrationState extends State<Calibration> {
                         child: IconButton(
                           onPressed: () {
                             globals.lockDevice.value = true;
-                            Navigator.push(
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => MainScreen()));
+                            Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => MainScreen()));
@@ -72,7 +76,6 @@ class _CalibrationState extends State<Calibration> {
                     Container(
                       width: 150 / sizeDevice,
                       height: 100 / sizeDevice,
-                      // color: const Color(0xFFD9D9D9),
                       color: Colors.white,
                       child: ConstrainedBox(
                         constraints: const BoxConstraints.expand(),
@@ -113,7 +116,6 @@ class _CalibrationState extends State<Calibration> {
                             SizedBox(
                               width: 455 / sizeDevice,
                               height: 90 / sizeDevice,
-                              // color: Colors.blue,
                               child: Column(children: [
                                 SizedBox(height: 24 / sizeDevice),
                                 GestureDetector(

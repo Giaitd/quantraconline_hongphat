@@ -100,6 +100,48 @@ public class SdkPHModule {
 
     }
 
+    //calibration zero
+    public void calibrationZero() {
+        try {
+            byte[] buffer = new byte[]{6, 6, 16, 0, 0, 0, -116, -115}; //{06,06,10,00,00,00,8C,8D}
+            this.usbSerialPort.write(buffer, this.WRITE_WAIT_MILLIS);
+            byte[] bufferStatus = new byte[10];
+            this.usbSerialPort.read(bufferStatus, this.READ_WAIT_MILLIS);
+            this.disconnect();
+        } catch (IOException var14) {
+            var14.printStackTrace();
+            this.disconnect();
+        }
+    }
+
+    //calibration slope 4.01
+    public void calibrationSlopeLow() {
+        try {
+            byte[] buffer = new byte[]{6, 6, 16, 2, 0, 0, 45, 125}; //{06,06,10,02,00,00,2D,7D}
+            this.usbSerialPort.write(buffer, this.WRITE_WAIT_MILLIS);
+            byte[] bufferStatus = new byte[10];
+            this.usbSerialPort.read(bufferStatus, this.READ_WAIT_MILLIS);
+            this.disconnect();
+        } catch (IOException var14) {
+            var14.printStackTrace();
+            this.disconnect();
+        }
+    }
+
+    //calibration slope 9.18
+    public void calibrationSlopeHigh() {
+        try {
+            byte[] buffer = new byte[]{6, 6, 16, 4, 0, 0, -51, 124}; //{06,06,10,04,00,00,CD,7C}
+            this.usbSerialPort.write(buffer, this.WRITE_WAIT_MILLIS);
+            byte[] bufferStatus = new byte[10];
+            this.usbSerialPort.read(bufferStatus, this.READ_WAIT_MILLIS);
+            this.disconnect();
+        } catch (IOException var14) {
+            var14.printStackTrace();
+            this.disconnect();
+        }
+    }
+
     public void disconnect() {
         this.connected = false;
 

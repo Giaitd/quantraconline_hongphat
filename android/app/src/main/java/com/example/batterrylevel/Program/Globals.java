@@ -15,6 +15,17 @@ public class Globals {
     public static Integer idNew = 10;
     public static Boolean btnSetId = false;
 
+    //calibration
+    public static Boolean pHZero = false;
+    public static Boolean pHSlopeLo = false;
+    public static Boolean pHSlopeHi = false;
+
+    public static Boolean nh4Zero = false;
+    public static Boolean nh4Slope = false;
+
+    public static Boolean codDefault = false;
+    public static Boolean turnOnBrush = false;
+
 
     // module di-do
     public static DIData dIData = null;

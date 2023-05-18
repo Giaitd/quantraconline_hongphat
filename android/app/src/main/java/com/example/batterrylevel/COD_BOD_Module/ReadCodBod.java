@@ -31,7 +31,7 @@ public class ReadCodBod {
                             if (SdkCodBodModule.checkReadCod.equals("080308") && SdkCodBodModule.checkReadBod.equals("080304") && SdkCodBodModule.checkReadTss.equals("080304")) {
 
                                 Globals.bod = Math.round(Globals.getCodBodData.bod * 100) / 100.0;
-                                Globals.cod = Math.round(Globals.getCodBodData.cod * 100) / 100.0 + Globals.offsetCOD;
+                                Globals.cod = Math.round((Globals.getCodBodData.cod + Globals.offsetCOD) * 100) / 100.0;
                                 Globals.tss = Math.round(Globals.getCodBodData.tss * 100) / 100.0;
 
 

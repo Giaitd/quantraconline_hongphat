@@ -85,6 +85,34 @@ public class SdkNh4Module {
         }
     }
 
+    //calibration zero
+    public void calibrationNH4Zero() {
+        try {
+            byte[] buffer = new byte[]{3, 6, 16, 0, 0, 100, -115, 03}; //{03,06,10,00,00,64,8D,03}
+            this.usbSerialPort.write(buffer, this.WRITE_WAIT_MILLIS);
+            byte[] bufferStatus = new byte[10];
+            this.usbSerialPort.read(bufferStatus, this.READ_WAIT_MILLIS);
+            this.disconnect();
+        } catch (IOException var14) {
+            var14.printStackTrace();
+            this.disconnect();
+        }
+    }
+
+    //calibration slope
+    public void calibrationNH4Slope() {
+        try {
+            byte[] buffer = new byte[]{3, 6, 16, 4, 3, -24, -51, -105}; //{03,06,10,04,03,E8,CD,97}
+            this.usbSerialPort.write(buffer, this.WRITE_WAIT_MILLIS);
+            byte[] bufferStatus = new byte[10];
+            this.usbSerialPort.read(bufferStatus, this.READ_WAIT_MILLIS);
+            this.disconnect();
+        } catch (IOException var14) {
+            var14.printStackTrace();
+            this.disconnect();
+        }
+    }
+
 
 
     public void disconnect() {

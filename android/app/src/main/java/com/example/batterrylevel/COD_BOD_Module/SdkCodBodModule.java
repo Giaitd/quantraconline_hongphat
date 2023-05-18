@@ -202,6 +202,34 @@ public class SdkCodBodModule {
         }
     }
 
+    //calibration factory default
+    public void calibrationCODDefault() {
+        try {
+            byte[] buffer = new byte[]{8,16,17,0,0,4,8,0,0,-128,63,0,0,0,0,72,-88}; //{08,10,,11,00,00,04,08,00,00,80,3F,00,00,00,00,48,A8}
+            this.usbSerialPort.write(buffer, this.WRITE_WAIT_MILLIS);
+            byte[] bufferStatus = new byte[17];
+            this.usbSerialPort.read(bufferStatus, this.READ_WAIT_MILLIS);
+            this.disconnect();
+        } catch (IOException var14) {
+            var14.printStackTrace();
+            this.disconnect();
+        }
+    }
+
+    //turn on the brush
+    public void turnOnTheBrush() {
+        try {
+            byte[] buffer = new byte[]{8,16,49,0,0,0,0,-19,-108}; //{08,10,31,00,00,00,00,ED,94}
+            this.usbSerialPort.write(buffer, this.WRITE_WAIT_MILLIS);
+            byte[] bufferStatus = new byte[9];
+            this.usbSerialPort.read(bufferStatus, this.READ_WAIT_MILLIS);
+            this.disconnect();
+        } catch (IOException var14) {
+            var14.printStackTrace();
+            this.disconnect();
+        }
+    }
+
 
     public void disconnect() {
         this.connected = false;

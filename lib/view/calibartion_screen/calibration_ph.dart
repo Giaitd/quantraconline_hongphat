@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ph_controller_hongphat/view/popup_screen/popup_screen.dart';
@@ -14,6 +16,24 @@ class CalibrationpH extends StatefulWidget {
 class _CalibrationpHState extends State<CalibrationpH> {
   Globals globals = Get.put(Globals());
   SecureStorage storage = Get.put(SecureStorage());
+  late Timer timer1;
+
+  @override
+  void initState() {
+    super.initState();
+    timer1 = Timer.periodic(const Duration(seconds: 1), (timer) {
+      globals.calibrationPH();
+      globals.calibpHZero.value = false;
+      globals.calibpHSlopeLo.value = false;
+      globals.calibpHSlopeHi.value = false;
+    });
+  }
+
+  @override
+  void dispose() {
+    timer1.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +56,7 @@ class _CalibrationpHState extends State<CalibrationpH> {
             height: 15 / sizeDevice,
           ),
           Text(
-            "- Sử dụng đúng dung dịch dùng để hiệu chuẩn (nếu sử dụng sai dung dịch có thể dẫn đến hỏng hóc không khắc phục được)",
+            "- Sử dụng đúng dung dịch dùng để hiệu chuẩn (nếu sử dụng sai dung dịch có thể dẫn đến hỏng hóc không khắc phục được). Chờ 5 phút để kết quả ổn định. Sau đó hiệu chuẩn nếu kết quả sai lệch.",
             style: TextStyle(
                 fontSize: 28 / sizeDevice, fontWeight: FontWeight.w500),
           ),
@@ -188,54 +208,18 @@ class _CalibrationpHState extends State<CalibrationpH> {
                     margin: EdgeInsets.fromLTRB(
                         29 / sizeDevice, 32 / sizeDevice, 0, 0),
                     width: 250 / sizeDevice,
-                    child: Column(
-                        // crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {},
-                            child: Container(
-                              height: 100 / sizeDevice,
-                              width: 250 / sizeDevice,
-                              alignment: Alignment.center,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(height: 15 / sizeDevice),
-                                  Text(
-                                    "Hiệu chuẩn",
-                                    style: TextStyle(
-                                        fontSize: 30 / sizeDevice,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    "điểm 0",
-                                    style: TextStyle(
-                                        fontSize: 30 / sizeDevice,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF4657ef)),
-                          ),
-                          SizedBox(height: 20 / sizeDevice),
-                          Text("Sử dụng dung dịch chuẩn pH 6.86",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 24 / sizeDevice,
-                                  fontWeight: FontWeight.bold))
-                        ]),
-                  ),
-
-                  // hiệu chuẩn pH4.01
-                  Container(
-                    margin: EdgeInsets.fromLTRB(
-                        40 / sizeDevice, 32 / sizeDevice, 0, 0),
-                    width: 250 / sizeDevice,
                     child: Column(children: [
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (globals.lockDevice.value == false) {
+                            setState(() {
+                              globals.calibpHZero.value = true;
+                              globals.lockDevice.value = true;
+                            });
+                          } else {
+                            PopupScreen().requiredInputPassword(context);
+                          }
+                        },
                         child: Container(
                           height: 100 / sizeDevice,
                           width: 250 / sizeDevice,
@@ -248,13 +232,77 @@ class _CalibrationpHState extends State<CalibrationpH> {
                                 "Hiệu chuẩn",
                                 style: TextStyle(
                                     fontSize: 30 / sizeDevice,
-                                    fontWeight: FontWeight.bold),
+                                    fontWeight: FontWeight.bold,
+                                    color: globals.calibpHZero.value == true
+                                        ? Colors.red
+                                        : Colors.white),
+                              ),
+                              Text(
+                                "điểm 0",
+                                style: TextStyle(
+                                    fontSize: 30 / sizeDevice,
+                                    fontWeight: FontWeight.bold,
+                                    color: globals.calibpHZero.value == true
+                                        ? Colors.red
+                                        : Colors.white),
+                              ),
+                            ],
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF4657ef)),
+                      ),
+                      SizedBox(height: 20 / sizeDevice),
+                      Text("Sử dụng dung dịch chuẩn pH 6.86",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 24 / sizeDevice,
+                              fontWeight: FontWeight.bold))
+                    ]),
+                  ),
+
+                  // hiệu chuẩn pH4.01
+                  Container(
+                    margin: EdgeInsets.fromLTRB(
+                        40 / sizeDevice, 32 / sizeDevice, 0, 0),
+                    width: 250 / sizeDevice,
+                    child: Column(children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          if (globals.lockDevice.value == false) {
+                            setState(() {
+                              globals.calibpHSlopeLo.value = true;
+                              globals.lockDevice.value = true;
+                            });
+                          } else {
+                            PopupScreen().requiredInputPassword(context);
+                          }
+                        },
+                        child: Container(
+                          height: 100 / sizeDevice,
+                          width: 250 / sizeDevice,
+                          alignment: Alignment.center,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(height: 15 / sizeDevice),
+                              Text(
+                                "Hiệu chuẩn",
+                                style: TextStyle(
+                                    fontSize: 30 / sizeDevice,
+                                    fontWeight: FontWeight.bold,
+                                    color: globals.calibpHSlopeLo.value == true
+                                        ? Colors.red
+                                        : Colors.white),
                               ),
                               Text(
                                 "slope - pH 4.01",
                                 style: TextStyle(
                                     fontSize: 30 / sizeDevice,
-                                    fontWeight: FontWeight.bold),
+                                    fontWeight: FontWeight.bold,
+                                    color: globals.calibpHSlopeLo.value == true
+                                        ? Colors.red
+                                        : Colors.white),
                               ),
                             ],
                           ),
@@ -278,7 +326,16 @@ class _CalibrationpHState extends State<CalibrationpH> {
                     width: 250 / sizeDevice,
                     child: Column(children: [
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (globals.lockDevice.value == false) {
+                            setState(() {
+                              globals.calibpHSlopeHi.value = true;
+                              globals.lockDevice.value = true;
+                            });
+                          } else {
+                            PopupScreen().requiredInputPassword(context);
+                          }
+                        },
                         child: Container(
                           height: 100 / sizeDevice,
                           width: 250 / sizeDevice,
@@ -291,13 +348,19 @@ class _CalibrationpHState extends State<CalibrationpH> {
                                 "Hiệu chuẩn",
                                 style: TextStyle(
                                     fontSize: 30 / sizeDevice,
-                                    fontWeight: FontWeight.bold),
+                                    fontWeight: FontWeight.bold,
+                                    color: globals.calibpHSlopeHi.value == true
+                                        ? Colors.red
+                                        : Colors.white),
                               ),
                               Text(
                                 "slope - pH 9.18",
                                 style: TextStyle(
                                     fontSize: 30 / sizeDevice,
-                                    fontWeight: FontWeight.bold),
+                                    fontWeight: FontWeight.bold,
+                                    color: globals.calibpHSlopeHi.value == true
+                                        ? Colors.red
+                                        : Colors.white),
                               ),
                             ],
                           ),
