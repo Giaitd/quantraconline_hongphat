@@ -28,6 +28,9 @@ class Globals extends GetxService {
 
   RxBool calibCODDefault = false.obs;
   RxBool turnOnBrush = false.obs;
+  RxBool calibCODSensor = false.obs;
+  RxDouble X = 0.2.obs;
+  RxDouble Y = 151.3.obs;
 
   //data setup
   RxDouble pHMinSet = 6.5.obs;
@@ -172,6 +175,9 @@ class Globals extends GetxService {
     var sendDataToNative3 = <String, dynamic>{
       "calibCODDefault": calibCODDefault.value,
       "turnOnBrush": turnOnBrush.value,
+      "calibCODSensor": calibCODSensor.value,
+      "x": X.value,
+      "y": Y.value,
     };
 
     try {

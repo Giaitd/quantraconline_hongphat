@@ -37,8 +37,7 @@ public class Calibration {
                             for (DeviceInfo each : devices) {
                                 boolean connect = PHSdk.connect(context, each, 9600);
                                 if (connect) {
-//                                    PHSdk.calibrationZero();
-//                                    Log.d("aaa===----","runnnnnn");
+                                //    PHSdk.calibrationZero();
                                 }
                             }
                         }
@@ -50,8 +49,7 @@ public class Calibration {
                             for (DeviceInfo each : devices) {
                                 boolean connect = PHSdk.connect(context, each, 9600);
                                 if (connect) {
-//                                    PHSdk.calibrationSlopeLow();
-//                                    Log.d("aaa===1----","runnnnnn");
+                                //    PHSdk.calibrationSlopeLow();
                                 }
                             }
                         }
@@ -63,8 +61,7 @@ public class Calibration {
                             for (DeviceInfo each : devices) {
                                 boolean connect = PHSdk.connect(context, each, 9600);
                                 if (connect) {
-//                                    PHSdk.calibrationSlopeHigh();
-//                                    Log.d("aaa===2----","runnnnnn");
+                                //    PHSdk.calibrationSlopeHigh();
                                 }
                             }
                         }
@@ -76,7 +73,7 @@ public class Calibration {
                             for (DeviceInfo each : devices) {
                                 boolean connect = NH4Sdk.connect(context, each, 9600);
                                 if (connect) {
-//                                    NH4Sdk.calibrationNH4Zero();
+                                //    NH4Sdk.calibrationNH4Zero();
                                 }
                             }
                         }
@@ -88,7 +85,7 @@ public class Calibration {
                             for (DeviceInfo each : devices) {
                                 boolean connect = NH4Sdk.connect(context, each, 9600);
                                 if (connect) {
-//                                    NH4Sdk.calibrationNH4Slope();
+                                //    NH4Sdk.calibrationNH4Slope();
                                 }
                             }
                         }
@@ -100,8 +97,7 @@ public class Calibration {
                             for (DeviceInfo each : devices) {
                                 boolean connect = CODSdk.connect(context, each, 9600);
                                 if (connect) {
-//                                    CODSdk.calibrationCODDefault();
-//                                    Log.d("aaa===1----","runnnnnn");
+                                //    CODSdk.calibrationCODDefault();
                                 }
                             }
                         }
@@ -114,6 +110,18 @@ public class Calibration {
                                 boolean connect = CODSdk.connect(context, each, 9600);
                                 if (connect) {
                                     CODSdk.turnOnTheBrush();
+                                }
+                            }
+                        }
+
+                        //calibration code sensor
+                        if(Globals.codCalibration){
+                            SdkCodBodModule CODSdk = new SdkCodBodModule();
+                            List<DeviceInfo> devices = SDKLocker.getAllUsbDevicesHasDriver(context);
+                            for (DeviceInfo each : devices) {
+                                boolean connect = CODSdk.connect(context, each, 9600);
+                                if (connect) {
+                                //    CODSdk.calibrationCOD();
                                 }
                             }
                         }

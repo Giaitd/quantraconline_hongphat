@@ -35,17 +35,12 @@ class _CalibrationState extends State<Calibration> {
                     Container(
                       width: 150 / sizeDevice,
                       height: 100 / sizeDevice,
-                      // color: const Color(0xFFD9D9D9),
                       color: Colors.white,
                       child: ConstrainedBox(
                         constraints: const BoxConstraints.expand(),
                         child: IconButton(
                           onPressed: () {
                             globals.lockDevice.value = true;
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => MainScreen()));
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
@@ -63,7 +58,7 @@ class _CalibrationState extends State<Calibration> {
                       height: 100 / sizeDevice,
                       color: const Color.fromARGB(255, 16, 39, 252),
                       child: Center(
-                        child: Text('Hiệu chỉnh đầu đo',
+                        child: Text('Hiệu chuẩn đầu đo',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colors.white,
@@ -112,7 +107,7 @@ class _CalibrationState extends State<Calibration> {
                         color: const Color.fromARGB(211, 211, 211, 211),
                         child: Row(
                           children: [
-                            //hiệu chỉnh đầu đo pH
+                            //Hiệu chuẩn đầu đo pH
                             SizedBox(
                               width: 455 / sizeDevice,
                               height: 90 / sizeDevice,
@@ -148,7 +143,7 @@ class _CalibrationState extends State<Calibration> {
                                     : Container()
                               ]),
                             ),
-                            //Hiệu chỉnh cod, bod
+                            //Hiệu chuẩn cod, bod
                             SizedBox(
                               width: 455 / sizeDevice,
                               height: 90 / sizeDevice,
@@ -184,7 +179,7 @@ class _CalibrationState extends State<Calibration> {
                                     : Container()
                               ]),
                             ),
-                            //Hiệu chỉnh nh4
+                            //Hiệu chuẩn nh4
                             SizedBox(
                               width: 455 / sizeDevice,
                               height: 90 / sizeDevice,

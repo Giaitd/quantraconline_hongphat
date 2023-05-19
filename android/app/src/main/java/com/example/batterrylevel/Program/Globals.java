@@ -25,6 +25,9 @@ public class Globals {
 
     public static Boolean codDefault = false;
     public static Boolean turnOnBrush = false;
+    public static double X = 0.2;
+    public static double Y = 151.2;
+    public static Boolean codCalibration = false;
 
 
     // module di-do

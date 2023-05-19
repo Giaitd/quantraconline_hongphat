@@ -76,6 +76,9 @@ public class MainActivity extends FlutterActivity {
                     } else if (call.method.equals("dataToNative3")) {
                         Globals.codDefault = (boolean) arg.get("calibCODDefault");
                         Globals.turnOnBrush = (boolean) arg.get("turnOnBrush");
+                        Globals.codCalibration = (boolean) arg.get("calibCODSensor");
+                        Globals.X = (double) arg.get("x");
+                        Globals.Y = (double) arg.get("y");
 
                     } else if (call.method.equals("getData")) {
                         arg2.put("getpH", Globals.pH);

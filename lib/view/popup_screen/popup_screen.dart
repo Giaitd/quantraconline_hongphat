@@ -5,7 +5,6 @@ import 'package:ph_controller_hongphat/view/history_screen/history.dart';
 import 'package:ph_controller_hongphat/view/notification_screen/notification.dart';
 import 'package:ph_controller_hongphat/view/set_id/set_id.dart';
 import 'package:ph_controller_hongphat/view/setup_screen/setup.dart';
-import 'package:ph_controller_hongphat/view/user_guide/user_guide.dart';
 import '../../globals/globals.dart';
 
 class Data {
@@ -41,12 +40,8 @@ class PopupScreen extends StatelessWidget {
       screen: SetupScreen(),
     ),
     Data(
-      title: 'Hiệu chỉnh đầu đo',
+      title: 'Hiệu chuẩn đầu đo',
       screen: Calibration(),
-    ),
-    Data(
-      title: 'Hướng dẫn sử dụng',
-      screen: UserGuide(),
     ),
   ];
 
@@ -71,7 +66,7 @@ class PopupScreen extends StatelessWidget {
                   height: 10 / sizeDevice,
                 ),
                 SizedBox(
-                  height: 450 / sizeDevice,
+                  height: 370 / sizeDevice,
                   width: 350 / sizeDevice,
                   child: ListView.builder(
                     padding: EdgeInsets.zero,
@@ -237,55 +232,11 @@ class PopupScreen extends StatelessWidget {
                         fontSize: 24 / globals.sizeDevice.value,
                       ),
                       border: const OutlineInputBorder()),
-                  keyboardType: TextInputType.number,
-                  style: TextStyle(
-                    fontFamily: 'Roboto Mono',
-                    color: Colors.black,
-                    fontSize: 40 / globals.sizeDevice.value,
-                    fontWeight: FontWeight.w800,
-                  ),
-                )
-              ],
-            ));
-  }
-
-  //password to login set id screen
-  inputPasswordAdvanced(BuildContext context) {
-    String _password = '';
-    return showDialog(
-        context: context,
-        builder: (context) => SimpleDialog(
-              backgroundColor: const Color(0xFFF0F0F0),
-              children: [
-                TextFormField(
-                  textAlign: TextAlign.center,
-                  onChanged: (text) => {
-                    _password = text,
-                    if (_password == 'Hongphat.2009')
-                      {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const SetId()))
-                      }
-                  },
-                  autofocus: true,
-                  obscureText: false,
-                  // ignore: prefer_const_constructors
-                  decoration: InputDecoration(
-                      labelText: 'Nhập mật khẩu',
-                      hintText: '****',
-                      hintStyle: TextStyle(
-                        fontFamily: 'Roboto Mono',
-                        color: Colors.black,
-                        fontSize: 24 / globals.sizeDevice.value,
-                      ),
-                      border: const OutlineInputBorder()),
                   keyboardType: TextInputType.text,
                   style: TextStyle(
                     fontFamily: 'Roboto Mono',
                     color: Colors.black,
-                    fontSize: 24 / globals.sizeDevice.value,
+                    fontSize: 32 / globals.sizeDevice.value,
                     fontWeight: FontWeight.w800,
                   ),
                 )

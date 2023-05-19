@@ -28,7 +28,7 @@ public class ReadCodBod {
                         if (connect) {
 
                             Globals.getCodBodData = codBodSDK.getCodBodData();
-                            if (SdkCodBodModule.checkReadCod.equals("080308") && SdkCodBodModule.checkReadBod.equals("080304") && SdkCodBodModule.checkReadTss.equals("080304")) {
+                            if (SdkCodBodModule.checkReadCod.equals("080308")) {
 
                                 Globals.bod = Math.round(Globals.getCodBodData.bod * 100) / 100.0;
                                 Globals.cod = Math.round((Globals.getCodBodData.cod + Globals.offsetCOD) * 100) / 100.0;

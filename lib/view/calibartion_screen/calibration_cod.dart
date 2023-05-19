@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../globals/globals.dart';
@@ -25,6 +24,7 @@ class _CalibrationCODState extends State<CalibrationCOD> {
       globals.calibrationCOD();
       globals.calibCODDefault.value = false;
       globals.turnOnBrush.value = false;
+      globals.calibCODSensor.value = false;
     });
   }
 
@@ -348,7 +348,11 @@ class _CalibrationCODState extends State<CalibrationCOD> {
                             child: TextFormField(
                               enabled: (!globals.lockDevice.value),
                               textAlign: TextAlign.center,
-                              onChanged: (text) {},
+                              onChanged: (text) {
+                                setState(() {
+                                  globals.X.value = double.parse(text);
+                                });
+                              },
                               decoration: const InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,
@@ -369,7 +373,11 @@ class _CalibrationCODState extends State<CalibrationCOD> {
                             child: TextFormField(
                               enabled: (!globals.lockDevice.value),
                               textAlign: TextAlign.center,
-                              onChanged: (text) {},
+                              onChanged: (text) {
+                                setState(() {
+                                  globals.Y.value = double.parse(text);
+                                });
+                              },
                               decoration: const InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,
@@ -398,7 +406,16 @@ class _CalibrationCODState extends State<CalibrationCOD> {
                       ),
                       SizedBox(height: 15 / sizeDevice),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (globals.lockDevice.value == false) {
+                            setState(() {
+                              globals.calibCODSensor.value = true;
+                              globals.lockDevice.value = true;
+                            });
+                          } else {
+                            PopupScreen().requiredInputPassword(context);
+                          }
+                        },
                         child: Container(
                           height: 100 / sizeDevice,
                           width: 250 / sizeDevice,
@@ -407,7 +424,10 @@ class _CalibrationCODState extends State<CalibrationCOD> {
                             "Hiệu chuẩn",
                             style: TextStyle(
                                 fontSize: 30 / sizeDevice,
-                                fontWeight: FontWeight.bold),
+                                fontWeight: FontWeight.bold,
+                                color: globals.calibCODSensor.value == true
+                                    ? Colors.red
+                                    : Colors.white),
                           ),
                         ),
                         style: ElevatedButton.styleFrom(
