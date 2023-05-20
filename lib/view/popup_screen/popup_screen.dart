@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ph_controller_hongphat/view/calibartion_screen/calibration.dart';
-import 'package:ph_controller_hongphat/view/history_screen/history.dart';
-import 'package:ph_controller_hongphat/view/notification_screen/notification.dart';
-import 'package:ph_controller_hongphat/view/set_id/set_id.dart';
-import 'package:ph_controller_hongphat/view/setup_screen/setup.dart';
+import 'package:quantrac_online_hongphat/view/calibartion_screen/calibration.dart';
+import 'package:quantrac_online_hongphat/view/history_screen/history.dart';
+import 'package:quantrac_online_hongphat/view/notification_screen/notification.dart';
+import 'package:quantrac_online_hongphat/view/set_id/set_id.dart';
+import 'package:quantrac_online_hongphat/view/setup_screen/setup.dart';
 import '../../globals/globals.dart';
 
 class Data {
@@ -163,7 +163,7 @@ class PopupScreen extends StatelessWidget {
         builder: (context) => AlertDialog(
               title: Text(
                 //cảnh báo
-                'Cảnh báo',
+                'Cảnh báo!',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'Roboto Mono',

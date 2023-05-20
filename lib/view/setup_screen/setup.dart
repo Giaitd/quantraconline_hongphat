@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ph_controller_hongphat/view/setup_screen/data_setup.dart';
+import 'package:quantrac_online_hongphat/view/setup_screen/data_setup.dart';
 
 import '../../globals/globals.dart';
 import '../main_screen/main_screen.dart';

@@ -1,4 +1,4 @@
-package com.example.batterrylevel.DIDOModule;
+package com.example.quantrac.DIDOModule;
 
 public class DOData {
     public boolean[] q0;

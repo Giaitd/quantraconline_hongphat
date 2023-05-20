@@ -1,9 +1,9 @@
-package com.example.batterrylevel.Nh4module;
+package com.example.quantrac.PHModule;
 
 import android.content.Context;
 import android.os.Handler;
 
-import com.example.batterrylevel.Program.Globals;
+import com.example.quantrac.Program.Globals;
 
 import java.util.List;
 import java.util.TimerTask;
@@ -11,27 +11,27 @@ import java.util.TimerTask;
 import asim.sdk.locker.DeviceInfo;
 import asim.sdk.locker.SDKLocker;
 
-public class ReadNh4 {
+public class ReadPH {
 
-    public static TimerTask getNH4Task(Context context) {
+    public static TimerTask getPHTask(Context context) {
         Handler mTimerHandler = new Handler();
         return new TimerTask() {
             public void run() {
                 mTimerHandler.post(() -> {
 
-                    SdkNh4Module phSDK = new SdkNh4Module();
+                    SdkPHModule phSDK = new SdkPHModule();
                     List<DeviceInfo> devices = SDKLocker.getAllUsbDevicesHasDriver(context);
                     for (DeviceInfo each : devices) {
                         boolean connect = phSDK.connect(context, each, 9600);
                         if (connect) {
 
-                            Globals.getNH4Data = phSDK.getNH4Data();
-                            if (SdkNh4Module.checkReadNH4.equals("030308")) {
-                                Globals.nh4 = Math.round((Globals.getNH4Data.nh4 + Globals.offsetNH4) * 100) / 100.0;
-
+                            Globals.getPHData = phSDK.getPHData();
+                            if (SdkPHModule.checkReadPH.equals("060308")) {
+                                Globals.pH = Math.round((Globals.getPHData.pH + Globals.offsetpH) * 100) / 100.0;
+                                Globals.temp = Globals.getPHData.temp;
                             } else {
-                                Globals.nh4 = -1.0;
-
+                                Globals.pH = 0.00;
+                                Globals.temp = 0.0;
                             }
                         }
                     }

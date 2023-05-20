@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
-project(ph_controller_hongphat LANGUAGES CXX)
+project(quantrac_online_hongphat LANGUAGES CXX)
 
-set(BINARY_NAME "ph_controller_hongphat")
+set(BINARY_NAME "quantrac_online_hongphat")
 
 cmake_policy(SET CMP0063 NEW)
 

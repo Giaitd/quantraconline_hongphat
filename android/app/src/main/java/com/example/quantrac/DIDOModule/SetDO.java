@@ -1,8 +1,8 @@
-package com.example.batterrylevel.DIDOModule;
+package com.example.quantrac.DIDOModule;
 
 import android.content.Context;
 
-import com.example.batterrylevel.Program.Globals;
+import com.example.quantrac.Program.Globals;
 
 import java.util.List;
 

@@ -1,9 +1,9 @@
-package com.example.batterrylevel.Program;
+package com.example.quantrac.Program;
 
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
-import com.example.batterrylevel.PHModule.SdkPHModule;
+import com.example.quantrac.PHModule.SdkPHModule;
 
 import java.math.BigInteger;
 import java.util.Arrays;

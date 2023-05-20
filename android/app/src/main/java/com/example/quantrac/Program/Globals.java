@@ -1,10 +1,10 @@
-package com.example.batterrylevel.Program;
+package com.example.quantrac.Program;
 
-import com.example.batterrylevel.COD_BOD_Module.CodBodData;
-import com.example.batterrylevel.DIDOModule.DIData;
-import com.example.batterrylevel.DIDOModule.DOData;
-import com.example.batterrylevel.Nh4module.Nh4Data;
-import com.example.batterrylevel.PHModule.PHData;
+import com.example.quantrac.COD_BOD_Module.CodBodData;
+import com.example.quantrac.DIDOModule.DIData;
+import com.example.quantrac.DIDOModule.DOData;
+import com.example.quantrac.Nh4module.Nh4Data;
+import com.example.quantrac.PHModule.PHData;
 
 import java.util.Timer;
 import java.util.TimerTask;

@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ph_controller_hongphat/view/main_screen/input_topic.dart';
-import 'package:ph_controller_hongphat/view/main_screen/thongso_quantrac.dart';
-import 'package:ph_controller_hongphat/view/popup_screen/popup_screen.dart';
+import 'package:quantrac_online_hongphat/view/main_screen/input_topic.dart';
+import 'package:quantrac_online_hongphat/view/main_screen/thongso_quantrac.dart';
+import 'package:quantrac_online_hongphat/view/popup_screen/popup_screen.dart';
 import '../../globals/globals.dart';
 import '../../globals/secure_storage.dart';
 

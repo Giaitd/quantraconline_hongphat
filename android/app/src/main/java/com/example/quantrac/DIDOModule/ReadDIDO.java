@@ -1,13 +1,11 @@
-package com.example.batterrylevel.DIDOModule;
+package com.example.quantrac.DIDOModule;
 
 
 import android.content.Context;
 import android.os.Handler;
 
-import com.example.batterrylevel.PHModule.SdkPHModule;
-import com.example.batterrylevel.Program.Globals;
+import com.example.quantrac.Program.Globals;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.TimerTask;
 

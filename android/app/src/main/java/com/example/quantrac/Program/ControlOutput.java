@@ -1,16 +1,14 @@
-package com.example.batterrylevel.Program;
+package com.example.quantrac.Program;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.example.batterrylevel.DIDOModule.SetDO;
+import com.example.quantrac.DIDOModule.SetDO;
 
-import java.util.Arrays;
 import java.util.TimerTask;
 
 public class ControlOutput extends android.app.Service {

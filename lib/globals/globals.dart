@@ -145,8 +145,6 @@ class Globals extends GetxService {
       "calibpHZero": calibpHZero.value,
       "calibpHSlopeLo": calibpHSlopeLo.value,
       "calibpHSlopeHi": calibpHSlopeHi.value,
-      "calibNH4Zero": calibNH4Zero.value,
-      "calibNH4Slope": calibNH4Slope.value,
     };
 
     try {

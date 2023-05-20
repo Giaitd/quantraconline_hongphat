@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:ph_controller_hongphat/globals/globals.dart';
+import 'package:quantrac_online_hongphat/globals/globals.dart';
 
 import '../../globals/secure_storage.dart';
 import '../popup_screen/popup_screen.dart';

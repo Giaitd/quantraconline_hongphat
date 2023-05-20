@@ -1,4 +1,4 @@
-package com.example.batterrylevel;
+package com.example.quantrac;
 //package com.example.batterrylevel;
 //
 //import io.flutter.embedding.android.FlutterActivity;
@@ -8,13 +8,12 @@ package com.example.batterrylevel;
 
 import androidx.annotation.NonNull;
 
-import com.example.batterrylevel.COD_BOD_Module.ReadCodBod;
-import com.example.batterrylevel.DIDOModule.ReadDIDO;
-import com.example.batterrylevel.PHModule.ReadPH;
-import com.example.batterrylevel.Program.Calibration;
-import com.example.batterrylevel.Program.ControlOutput;
-import com.example.batterrylevel.Program.Globals;
-import com.example.batterrylevel.Program.SetID;
+import com.example.quantrac.COD_BOD_Module.ReadCodBod;
+import com.example.quantrac.DIDOModule.ReadDIDO;
+import com.example.quantrac.PHModule.ReadPH;
+import com.example.quantrac.Program.Calibration;
+import com.example.quantrac.Program.ControlOutput;
+import com.example.quantrac.Program.Globals;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,11 +1,11 @@
-package com.example.batterrylevel.DIDOModule;
+package com.example.quantrac.DIDOModule;
 
 import android.content.Context;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
 import android.util.Log;
 
-import com.example.batterrylevel.Program.Globals;
+import com.example.quantrac.Program.Globals;
 import com.hoho.android.usbserial.driver.UsbSerialDriver;
 import com.hoho.android.usbserial.driver.UsbSerialPort;
 

@@ -1,11 +1,10 @@
-package com.example.batterrylevel.PHModule;
+package com.example.quantrac.Nh4module;
 
 import android.content.Context;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
 import android.util.Log;
 
-import com.example.batterrylevel.Program.Globals;
 import com.hoho.android.usbserial.driver.UsbSerialDriver;
 import com.hoho.android.usbserial.driver.UsbSerialPort;
 
@@ -15,15 +14,15 @@ import asim.sdk.common.Utils;
 import asim.sdk.locker.DeviceInfo;
 
 
-public class SdkPHModule {
+public class SdkNh4Module {
     public UsbSerialPort usbSerialPort;
     public boolean connected = false;
     public int READ_WAIT_MILLIS = 40;
     public int WRITE_WAIT_MILLIS = 40;
-    public static String checkReadPH;
+    public static String checkReadNH4;
     UsbDeviceConnection usbConnection;
 
-    public SdkPHModule() {
+    public SdkNh4Module() {
     }
 
 
@@ -31,16 +30,16 @@ public class SdkPHModule {
         UsbSerialDriver driver = deviceInfo.driver;
         UsbManager usbManager = (UsbManager) context.getSystemService(Context.USB_SERVICE);
         if (driver.getPorts().size() < deviceInfo.port) {
-            Log.d("---sdk-lockerPH---", "connection failed: not enough ports at device");
+            Log.d("---sdk-lockerNH4---", "connection failed: not enough ports at device");
             return false;
         } else {
             this.usbSerialPort = (UsbSerialPort) driver.getPorts().get(deviceInfo.port);
             usbConnection = usbManager.openDevice(driver.getDevice());
             if (usbConnection == null) {
                 if (!usbManager.hasPermission(driver.getDevice())) {
-                    Log.d("---sdk-lockerPH---", "connection failed: permission denied");
+                    Log.d("---sdk-lockerNH4---", "connection failed: permission denied");
                 } else {
-                    Log.d("---sdk-lockerPH---", "connection failed: open failed");
+                    Log.d("---sdk-lockerNH4---", "connection failed: open failed");
                 }
                 return false;
             } else {
@@ -50,7 +49,7 @@ public class SdkPHModule {
                     this.connected = true;
                     return true;
                 } catch (Exception var8) {
-                    Log.d("---sdk-lockerDIDO---", "connection failed: " + var8.getMessage());
+                    Log.d("---sdk-lockerNH4---", "connection failed: " + var8.getMessage());
                     this.disconnect();
                     return false;
                 }
@@ -58,22 +57,22 @@ public class SdkPHModule {
         }
     }
 
-    //read pH id: 06
-    public PHData getPHData() {
+    //read NH4 id: 03
+    public Nh4Data getNH4Data() {
         try {
-            byte[] buffer = new byte[]{6, 3, 0, 0, 0, 4, 69, -66}; // CRC: 45 BE -> 45 <->69; BE <-> 190, quy đổi ra thành 190-256 = -69
+            byte[] buffer = new byte[]{3, 3, 0, 0, 0, 4, 69, -21}; //{03 03 00 00 00 04 45 EB}
             this.usbSerialPort.write(buffer, this.WRITE_WAIT_MILLIS);
             byte[] bufferStatus = new byte[14];
             this.usbSerialPort.read(bufferStatus, this.READ_WAIT_MILLIS);
-            checkReadPH = Utils.bytesToHex(new byte[]{bufferStatus[0], bufferStatus[1], bufferStatus[2]});
-            if (checkReadPH.equals("060308")) {
-                String pH = Utils.bytesToHex(new byte[]{bufferStatus[3], bufferStatus[4]});
-                String temp = Utils.bytesToHex(new byte[]{bufferStatus[7], bufferStatus[8]});
-                double PhData = (double) Integer.parseInt(pH, 16) / 100.0D;
-                double tempData = (double) Integer.parseInt(temp, 16) / 10.0D;
+            checkReadNH4 = Utils.bytesToHex(new byte[]{bufferStatus[0], bufferStatus[1], bufferStatus[2]});
+            if (checkReadNH4.equals("030308")) {
+                String nh4String = Utils.bytesToHex(new byte[]{bufferStatus[3], bufferStatus[4]});
+                String tempNh4String = Utils.bytesToHex(new byte[]{bufferStatus[7], bufferStatus[8]});
+                double NH4Data = (double) Integer.parseInt(nh4String, 16) / 100.0D;
+                double tempNH4Data = (double) Integer.parseInt(tempNh4String, 16) / 10.0D;
                 this.disconnect();
 
-                return new PHData(PhData, tempData);
+                return new Nh4Data(NH4Data, tempNH4Data);
             } else {
                 this.disconnect();
                 return null;
@@ -85,25 +84,10 @@ public class SdkPHModule {
         }
     }
 
-
-    //set id
-    public void setID() {
-        try {
-            this.usbSerialPort.write(Globals.bufferAll, this.WRITE_WAIT_MILLIS);
-            byte[] bufferStatus = new byte[10];
-            this.usbSerialPort.read(bufferStatus, this.READ_WAIT_MILLIS);
-            this.disconnect();
-        } catch (IOException var14) {
-            var14.printStackTrace();
-            this.disconnect();
-        }
-
-    }
-
     //calibration zero
-    public void calibrationZero() {
+    public void calibrationNH4Zero() {
         try {
-            byte[] buffer = new byte[]{6, 6, 16, 0, 0, 0, -116, -115}; //{06,06,10,00,00,00,8C,8D}
+            byte[] buffer = new byte[]{3, 6, 16, 0, 0, 100, -115, 03}; //{03,06,10,00,00,64,8D,03}
             this.usbSerialPort.write(buffer, this.WRITE_WAIT_MILLIS);
             byte[] bufferStatus = new byte[10];
             this.usbSerialPort.read(bufferStatus, this.READ_WAIT_MILLIS);
@@ -114,10 +98,10 @@ public class SdkPHModule {
         }
     }
 
-    //calibration slope 4.01
-    public void calibrationSlopeLow() {
+    //calibration slope
+    public void calibrationNH4Slope() {
         try {
-            byte[] buffer = new byte[]{6, 6, 16, 2, 0, 0, 45, 125}; //{06,06,10,02,00,00,2D,7D}
+            byte[] buffer = new byte[]{3, 6, 16, 4, 3, -24, -51, -105}; //{03,06,10,04,03,E8,CD,97}
             this.usbSerialPort.write(buffer, this.WRITE_WAIT_MILLIS);
             byte[] bufferStatus = new byte[10];
             this.usbSerialPort.read(bufferStatus, this.READ_WAIT_MILLIS);
@@ -128,19 +112,7 @@ public class SdkPHModule {
         }
     }
 
-    //calibration slope 9.18
-    public void calibrationSlopeHigh() {
-        try {
-            byte[] buffer = new byte[]{6, 6, 16, 4, 0, 0, -51, 124}; //{06,06,10,04,00,00,CD,7C}
-            this.usbSerialPort.write(buffer, this.WRITE_WAIT_MILLIS);
-            byte[] bufferStatus = new byte[10];
-            this.usbSerialPort.read(bufferStatus, this.READ_WAIT_MILLIS);
-            this.disconnect();
-        } catch (IOException var14) {
-            var14.printStackTrace();
-            this.disconnect();
-        }
-    }
+
 
     public void disconnect() {
         this.connected = false;

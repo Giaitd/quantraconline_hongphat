@@ -1,11 +1,11 @@
-package com.example.batterrylevel.COD_BOD_Module;
+package com.example.quantrac.COD_BOD_Module;
 
 import android.content.Context;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
 import android.util.Log;
 
-import com.example.batterrylevel.Program.Globals;
+import com.example.quantrac.Program.Globals;
 import com.hoho.android.usbserial.driver.UsbSerialDriver;
 import com.hoho.android.usbserial.driver.UsbSerialPort;
 

@@ -1,4 +1,4 @@
-package com.example.batterrylevel.COD_BOD_Module;
+package com.example.quantrac.COD_BOD_Module;
 
 public class CodBodData {
     public double cod;

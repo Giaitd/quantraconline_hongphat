@@ -1,4 +1,4 @@
-package com.example.batterrylevel.Nh4module;
+package com.example.quantrac.Nh4module;
 
 public class Nh4Data {
     public double nh4 = 0.0D;

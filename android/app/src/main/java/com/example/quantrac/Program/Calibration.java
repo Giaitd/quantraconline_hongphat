@@ -1,16 +1,14 @@
-package com.example.batterrylevel.Program;
+package com.example.quantrac.Program;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
 
-import com.example.batterrylevel.COD_BOD_Module.SdkCodBodModule;
-import com.example.batterrylevel.Nh4module.SdkNh4Module;
-import com.example.batterrylevel.PHModule.SdkPHModule;
+import com.example.quantrac.COD_BOD_Module.SdkCodBodModule;
+import com.example.quantrac.Nh4module.SdkNh4Module;
+import com.example.quantrac.PHModule.SdkPHModule;
 
 import java.util.List;
 import java.util.TimerTask;
-import java.util.logging.LogRecord;
 
 import asim.sdk.locker.DeviceInfo;
 import asim.sdk.locker.SDKLocker;

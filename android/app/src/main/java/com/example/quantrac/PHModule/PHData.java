@@ -1,4 +1,4 @@
-package com.example.batterrylevel.PHModule;
+package com.example.quantrac.PHModule;
 
 public class PHData {
     public double pH = 0.0D;

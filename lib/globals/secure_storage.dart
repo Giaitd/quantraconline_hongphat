@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:ph_controller_hongphat/globals/globals.dart';
+import 'package:quantrac_online_hongphat/globals/globals.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SecureStorage extends GetxService {

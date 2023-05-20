@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ph_controller_hongphat/globals/globals.dart';
+import 'package:quantrac_online_hongphat/globals/globals.dart';
 import '../main_screen/main_screen.dart';
 import '../popup_screen/popup_screen.dart';
 

@@ -1,10 +1,9 @@
-package com.example.batterrylevel.COD_BOD_Module;
+package com.example.quantrac.COD_BOD_Module;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
 
-import com.example.batterrylevel.Program.Globals;
+import com.example.quantrac.Program.Globals;
 
 import java.util.List;
 import java.util.TimerTask;
