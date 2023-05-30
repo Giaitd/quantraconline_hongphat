@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:quantrac_online_hongphat/api/duLieuQuanTrac_model.dart';
 import 'package:quantrac_online_hongphat/view/main_screen/input_topic.dart';
 import 'package:quantrac_online_hongphat/view/main_screen/thongso_quantrac.dart';
 import 'package:quantrac_online_hongphat/view/popup_screen/popup_screen.dart';
+import '../../api/api_service.dart';
 import '../../globals/globals.dart';
 import '../../globals/secure_storage.dart';
 
@@ -19,12 +21,26 @@ class _MainScreenState extends State<MainScreen> {
   SecureStorage storage = Get.put(SecureStorage());
   Globals globals = Get.put(Globals());
   late Timer _timer;
+  late DuLieuQuanTracModel duLieuQuanTracModel;
 
   @override
   void initState() {
+    super.initState();
     for (int i = 0; i < globals.keySetup.length; i++) {
       storage.readDataSetup(i);
     }
+    Timer.periodic(const Duration(seconds: 60), (timer) {
+      duLieuQuanTracModel = DuLieuQuanTracModel();
+      duLieuQuanTracModel.thietBiId = globals.mapSetup["thietBiId"];
+      duLieuQuanTracModel.pH = globals.pH.value.toString();
+      duLieuQuanTracModel.bod = globals.bod.value.toString();
+      duLieuQuanTracModel.cod = globals.cod.value.toString();
+      duLieuQuanTracModel.tss = globals.tss.value.toString();
+      duLieuQuanTracModel.nh4 = globals.nh4.value.toString();
+      duLieuQuanTracModel.temp = globals.temp.value.toString();
+      APIService apiService = APIService();
+      apiService.addDuLieu(duLieuQuanTracModel);
+    });
   }
 
   @override

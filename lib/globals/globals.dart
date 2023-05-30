@@ -3,13 +3,21 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
+import 'package:quantrac_online_hongphat/globals/secure_storage.dart';
 
 class Globals extends GetxService {
   RxDouble sizeDevice = 1.0.obs;
+
+  //androidbox info (use to this topic name to receive thietBiId)
+  RxString androidBoxInfo = 'info'.obs;
+
+  //thietBiId
+  RxString thietBiId = "".obs;
 
   //set id
   RxInt idOld = 6.obs;
@@ -82,6 +90,7 @@ class Globals extends GetxService {
     "offsetpH": "0.0",
     "offsetCOD": "0.0",
     "offsetNH4": "0.0",
+    "thietBiId": "thietBiId",
   }.obs;
 
   List<String> keySetup = [
@@ -95,11 +104,13 @@ class Globals extends GetxService {
     "offsetpH",
     "offsetCOD",
     "offsetNH4",
+    "thietBiId",
   ].obs;
 
   @override
   void onInit() {
     super.onInit();
+    getDeviceId();
     mqttConnect();
 
     Timer.periodic(const Duration(milliseconds: 2000), (timer) {
@@ -108,6 +119,15 @@ class Globals extends GetxService {
       _convertData();
       publishMqtt();
     });
+  }
+
+  //get device info
+  Future<void> getDeviceId() async {
+    final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+    if (Platform.isAndroid) {
+      AndroidDeviceInfo deviceData = await deviceInfoPlugin.androidInfo;
+      androidBoxInfo.value = deviceData.androidId!;
+    }
   }
 
   /// ============ MethodChannel=== send/get data to/from native ====================== */
@@ -138,10 +158,6 @@ class Globals extends GetxService {
   //hiệu chuẩn đầu đo PH
   Future<void> calibrationPH() async {
     var sendDataToNative1 = <String, dynamic>{
-      //id
-      // "idOld": idOld.value,
-      // "idNew": idNew.value,
-      // "btnSetId": setID.value,
       "calibpHZero": calibpHZero.value,
       "calibpHSlopeLo": calibpHSlopeLo.value,
       "calibpHSlopeHi": calibpHSlopeHi.value,
@@ -234,7 +250,7 @@ class Globals extends GetxService {
 
     final connMess = MqttConnectMessage()
         .withClientIdentifier(
-            "androidBoxInfo.value") //must be unique for each device
+            androidBoxInfo.value) //must be unique for each device
         .withWillTopic(
             'willtopic') // If you set this you must set a will message
         .withWillMessage('My Will message')
@@ -254,8 +270,11 @@ class Globals extends GetxService {
     }
 
     //subscription ========================================================
+    SecureStorage storage = Get.put(SecureStorage());
 
-    String subTopic = "androidBoxInfo.value";
+    // String subTopic = androidBoxInfo.value; //khi chạy thật thì enable
+    String subTopic = "20099002";
+
     client.subscribe(subTopic, MqttQos.atMostOnce);
 
     client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
@@ -263,6 +282,9 @@ class Globals extends GetxService {
       final pt =
           MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
       Map<String, dynamic> json = jsonDecode(pt);
+      thietBiId.value = json['thietBiId'];
+      storage.writeDataSetup(10);
+      storage.readDataSetup(10);
     });
     publishMqtt();
   }
