@@ -13,12 +13,19 @@ import 'package:quantrac_online_hongphat/globals/secure_storage.dart';
 class Globals extends GetxService {
   RxDouble sizeDevice = 1.0.obs;
 
+  //check timer sent data to server run
+  RxBool check = false.obs;
+
   //androidbox info (use to this topic name to receive thietBiId)
   RxString androidBoxInfo = 'info'.obs;
 
   //thietBiId
   RxString thietBiId = "".obs;
 
+  //list data
+  RxList pHDataList = [].obs;
+  RxList dataQuanTracList = [].obs;
+  RxList<dynamic> listData = [].obs;
   //set id
   RxInt idOld = 6.obs;
   RxInt idNew = 7.obs;
@@ -90,7 +97,7 @@ class Globals extends GetxService {
     "offsetpH": "0.0",
     "offsetCOD": "0.0",
     "offsetNH4": "0.0",
-    "thietBiId": "thietBiId",
+    "thietBiId": "64746b0adf7ac34be49ce692",
   }.obs;
 
   List<String> keySetup = [

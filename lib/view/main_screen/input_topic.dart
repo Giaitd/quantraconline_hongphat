@@ -39,10 +39,7 @@ class _InputTopicState extends State<InputTopic> {
                         child: IconButton(
                           onPressed: () {
                             globals.lockDevice.value = true;
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MainScreen()));
+                            Navigator.pop(context);
                           },
                           icon: Image.asset(
                             'assets/images/undo.png',

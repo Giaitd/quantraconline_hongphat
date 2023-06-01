@@ -1,49 +1,62 @@
 import 'dart:convert';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-
 import 'package:quantrac_online_hongphat/api/duLieuQuanTrac_model.dart';
+import 'package:quantrac_online_hongphat/globals/globals.dart';
 
 class APIService {
-  //dữ liệu quan trắc
+  Globals global = Get.put(Globals());
+  //thêm dữ liệu quan trắc
   Future<http.Response> addDuLieu(DuLieuQuanTracModel requestModel) async {
     String url = "http://192.168.0.120:8000/hongphat/themDuLieuQuanTrac";
 
-    var url_uri = Uri.parse(url);
+    var urlUri = Uri.parse(url);
     final response = await http.post(
-      url_uri,
+      urlUri,
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(requestModel),
     );
     return response;
   }
 
-  // Future<http.Response> getDuLieu(DuLieuQuanTracModel requestModel) async {
-  //   String url =
-  //       "http://192.168.0.120:8000/hongphat/layDanhSachViTri?diaChiId=${global.diaChi_Id.value}";
-  //   // String url = "https://jsonplaceholder.typicode.com/posts?id=2";
-  //   var url_uri = Uri.parse(url);
+  //lấy dữ liệu quan trắc
+  Future<http.Response> getDuLieu(DuLieuQuanTracModel requestModel) async {
+    String url =
+        "http://192.168.0.120:8000/hongphat/layDuLieuQuanTrac?thietBiId=${global.mapSetup["thietBiId"]}";
+    var urlUri = Uri.parse(url);
 
-  //   final response = await http.get(
-  //     url_uri,
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //   );
-  //   var a = json.decode(response.body);
+    final response = await http.get(
+      urlUri,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+    var a = json.decode(response.body);
 
-  //   global.checkBoxViTriList.clear();
+    global.pHDataList.clear();
+    global.dataQuanTracList.clear();
 
-  //   for (var element in a) {
-  //     global.checkBoxViTriList.add({
-  //       // "id": element["_id"],
-  //       "value": false,
-  //       "title": element["ten"],
-  //       "maViTri": element["ma"],
-  //     });
-  //   }
+    for (var element in a) {
+      //xóa bớt ký tự k cần thiết ở dữ liệu time
+      String m = (element["ngayTao"]).toString().replaceRange(10, 11, '     ');
+      String dateTime = m.replaceRange(23, null, '');
+      global.dataQuanTracList.add({
+        dateTime,
+        element["pH"],
+        element["cod"],
+        element["bod"],
+        element["tss"],
+        element["nh4"],
+        element["temp"],
+      });
+      // global.pHDataList.add({
+      //   "pH": element["pH"],
+      //   "time": element["ngayTao"],
+      // });
+    }
 
-  //   return response;
-  // }
+    return response;
+  }
 
   // Future<http.Response> deleteDuLieu(DuLieuQuanTracModel requestModel) async {
   //   String url = "http://192.168.0.120:8000/hongphat/xoaDuLieu";

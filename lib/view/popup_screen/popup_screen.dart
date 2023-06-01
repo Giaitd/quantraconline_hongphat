@@ -5,6 +5,8 @@ import 'package:quantrac_online_hongphat/view/history_screen/history.dart';
 import 'package:quantrac_online_hongphat/view/notification_screen/notification.dart';
 import 'package:quantrac_online_hongphat/view/set_id/set_id.dart';
 import 'package:quantrac_online_hongphat/view/setup_screen/setup.dart';
+import '../../api/api_service.dart';
+import '../../api/duLieuQuanTrac_model.dart';
 import '../../globals/globals.dart';
 
 class Data {
@@ -20,6 +22,7 @@ class Data {
 class PopupScreen extends StatelessWidget {
   Globals globals = Get.put(Globals());
   PopupScreen({Key? key}) : super(key: key);
+  late DuLieuQuanTracModel duLieuQuanTracModel;
 
   @override
   Widget build(BuildContext context) {
@@ -95,10 +98,40 @@ class PopupScreen extends StatelessWidget {
                                   fontWeight: FontWeight.bold),
                             ),
                             onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => data.screen));
+                              if (index == 1) {
+                                APIService apiService = APIService();
+                                duLieuQuanTracModel = DuLieuQuanTracModel();
+                                apiService.getDuLieu(duLieuQuanTracModel);
+
+                                //delay 1s để load dataQuanTracList
+                                Future.delayed(
+                                    const Duration(milliseconds: 1000), () {
+                                  globals.listData.clear();
+                                  for (int i =
+                                          globals.dataQuanTracList.length - 1;
+                                      i > 0;
+                                      i--) {
+                                    //giới hạn data xem trên thiết bị là 200 data mới nhất
+                                    if (globals.listData.length < 200) {
+                                      globals.listData
+                                          .add(globals.dataQuanTracList[i]);
+                                    } else {
+                                      break;
+                                    }
+                                  }
+
+                                  //vào giao diện dữ liệu quan trắc
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => data.screen));
+                                });
+                              } else {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => data.screen));
+                              }
                             },
                           ),
                         ),

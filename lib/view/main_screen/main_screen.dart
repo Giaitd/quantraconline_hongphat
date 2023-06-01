@@ -22,6 +22,7 @@ class _MainScreenState extends State<MainScreen> {
   Globals globals = Get.put(Globals());
   late Timer _timer;
   late DuLieuQuanTracModel duLieuQuanTracModel;
+  APIService apiService = APIService();
 
   @override
   void initState() {
@@ -29,18 +30,20 @@ class _MainScreenState extends State<MainScreen> {
     for (int i = 0; i < globals.keySetup.length; i++) {
       storage.readDataSetup(i);
     }
-    Timer.periodic(const Duration(seconds: 60), (timer) {
-      duLieuQuanTracModel = DuLieuQuanTracModel();
-      duLieuQuanTracModel.thietBiId = globals.mapSetup["thietBiId"];
-      duLieuQuanTracModel.pH = globals.pH.value.toString();
-      duLieuQuanTracModel.bod = globals.bod.value.toString();
-      duLieuQuanTracModel.cod = globals.cod.value.toString();
-      duLieuQuanTracModel.tss = globals.tss.value.toString();
-      duLieuQuanTracModel.nh4 = globals.nh4.value.toString();
-      duLieuQuanTracModel.temp = globals.temp.value.toString();
-      APIService apiService = APIService();
-      apiService.addDuLieu(duLieuQuanTracModel);
-    });
+    if (globals.check.value == false) {
+      Timer.periodic(const Duration(seconds: 60), (timer) {
+        duLieuQuanTracModel = DuLieuQuanTracModel();
+        duLieuQuanTracModel.thietBiId = globals.mapSetup["thietBiId"];
+        duLieuQuanTracModel.pH = globals.pH.value.toString();
+        duLieuQuanTracModel.bod = globals.bod.value.toString();
+        duLieuQuanTracModel.cod = globals.cod.value.toString();
+        duLieuQuanTracModel.tss = globals.tss.value.toString();
+        duLieuQuanTracModel.nh4 = globals.nh4.value.toString();
+        duLieuQuanTracModel.temp = globals.temp.value.toString();
+        apiService.addDuLieu(duLieuQuanTracModel);
+      });
+      globals.check.value = true;
+    }
   }
 
   @override

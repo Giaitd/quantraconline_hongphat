@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
+import 'package:quantrac_online_hongphat/view/history_screen/ph_chart.dart';
+import 'package:quantrac_online_hongphat/view/history_screen/table.dart';
 
+import '../../api/api_service.dart';
+import '../../api/duLieuQuanTrac_model.dart';
 import '../../globals/globals.dart';
 import '../main_screen/main_screen.dart';
 
 class HistoryScreen extends StatefulWidget {
-  const HistoryScreen({Key? key}) : super(key: key);
+  // ignore: prefer_const_constructors_in_immutables
+  HistoryScreen({Key? key}) : super(key: key);
 
   @override
   State<HistoryScreen> createState() => _HistoryState();
@@ -16,6 +18,8 @@ class HistoryScreen extends StatefulWidget {
 
 class _HistoryState extends State<HistoryScreen> {
   Globals globals = Get.put(Globals());
+  late DuLieuQuanTracModel duLieuQuanTracModel;
+  APIService apiService = APIService();
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +58,7 @@ class _HistoryState extends State<HistoryScreen> {
                   height: 100 / sizeDevice,
                   color: const Color.fromARGB(255, 16, 39, 252),
                   child: Center(
-                    child: Text('Nhật ký',
+                    child: Text('Dữ liệu quan trắc',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Colors.white,
@@ -69,6 +73,7 @@ class _HistoryState extends State<HistoryScreen> {
             SizedBox(
               height: 680 / sizeDevice,
               width: 1365 / sizeDevice,
+              child: const TableData(),
             )
           ],
         ),
