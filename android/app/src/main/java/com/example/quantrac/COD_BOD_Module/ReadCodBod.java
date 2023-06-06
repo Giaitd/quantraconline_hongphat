@@ -31,7 +31,8 @@ public class ReadCodBod {
 
                                 Globals.bod = Math.round(Globals.getCodBodData.bod * 100) / 100.0;
                                 Globals.cod = Math.round((Globals.getCodBodData.cod + Globals.offsetCOD) * 100) / 100.0;
-                                Globals.tss = Math.round(Globals.getCodBodData.tss * 100) / 100.0;
+//                                Globals.tss = Math.round(Globals.getCodBodData.tss * 100) / 100.0;
+                                Globals.tss = 0.0;
 
 
                             } else {

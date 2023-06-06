@@ -71,7 +71,7 @@ public class SdkCodBodModule {
         try {
             double bodData;
             double codData;
-            double tssData;
+            double tssData = 0.0;
             //cod
             byte[] bufferCod = new byte[]{8, 3, 38, 0, 0, 4, 79, -40}; // {08 03 26 00 00 04 4F D8}
             this.usbSerialPort.write(bufferCod, this.WRITE_WAIT_MILLIS);
@@ -89,18 +89,19 @@ public class SdkCodBodModule {
 
 
             //tss
-            byte[] bufferTss = new byte[]{8, 3, 18, 0, 0, 2, -63, -22}; // {08 03 12 00 00 02 C1 EA}
-            this.usbSerialPort.write(bufferTss, this.WRITE_WAIT_MILLIS);
-            byte[] bufferStatusTss = new byte[10];
-            this.usbSerialPort.read(bufferStatusTss, this.READ_WAIT_MILLIS);
-            checkReadTss = Utils.bytesToHex(new byte[]{bufferStatusTss[0], bufferStatusTss[1], bufferStatusTss[2]});
+//            byte[] bufferTss = new byte[]{8, 3, 18, 0, 0, 2, -63, -22}; // {08 03 12 00 00 02 C1 EA}
+//            this.usbSerialPort.write(bufferTss, this.WRITE_WAIT_MILLIS);
+//            byte[] bufferStatusTss = new byte[10];
+//            this.usbSerialPort.read(bufferStatusTss, this.READ_WAIT_MILLIS);
+//            checkReadTss = Utils.bytesToHex(new byte[]{bufferStatusTss[0], bufferStatusTss[1], bufferStatusTss[2]});
 
 
 //            Log.d("data12=== ",checkReadBod);
 //            Log.d("data13=== ",checkReadTss);
 
             // đọc giá trị COD
-            if (checkReadCod.equals("080308") && checkReadBod.equals("080304") && checkReadTss.equals("080304")) {
+//            if (checkReadCod.equals("080308") && checkReadBod.equals("080304") && checkReadTss.equals("080304")) {
+                if (checkReadCod.equals("080308") && checkReadBod.equals("080304")) {
 //            if (checkReadCod.equals("080308")) {
 
                 //đọc Cod
@@ -162,36 +163,36 @@ public class SdkCodBodModule {
 
 
                 //đọc giá trị tss ======
-                String tssString = Utils.bytesToHex(new byte[]{bufferStatusTss[6], bufferStatusTss[5], bufferStatusTss[4], bufferStatusTss[3]});
-                if (tssString.equals("00000000")) {
-                    tssData = 0.0;
-                } else {
-                    String dataReceiveTss = "";
-                    for (int i = 0; i < tssString.length(); i++) {
-                        int k = Integer.parseInt(String.valueOf(bodString.charAt(i)), 16);
-                        dataReceiveTss = dataReceiveTss + String.format("%4s", Integer.toBinaryString(k)).replace(' ', '0');
-                    }
-
-                    String dataReceiveTss0 = String.valueOf(dataReceiveTss.charAt(0));//sign of value: 0: +    1: -
-                    String dataReceiveTss1 = dataReceiveTss.substring(1, 9);
-                    String dataReceiveTss2 = dataReceiveTss.substring(9);
-
-                    int exponentTss = Integer.parseInt(dataReceiveTss1, 2) - 127;
-
-                    String mantissaTss = "1" + dataReceiveTss2.substring(0, exponentTss);
-
-                    String tgTss = dataReceiveTss2.substring(exponentTss);
-                    int numberTss1 = Integer.parseInt(mantissaTss, 2);
-                    double numberTss2 = 0.0;
-
-                    for (int j = 0; j < tgTss.length(); j++) {
-                        numberTss2 += Character.getNumericValue(tgTss.charAt(j)) * Math.pow(2, -(j + 1));
-                    }
-
-                    if (dataReceiveTss0.equals("0")) {
-                        tssData = numberTss1 + numberTss2;
-                    } else tssData = -(numberTss1 + numberTss2);
-                }
+//                String tssString = Utils.bytesToHex(new byte[]{bufferStatusTss[6], bufferStatusTss[5], bufferStatusTss[4], bufferStatusTss[3]});
+//                if (tssString.equals("00000000")) {
+//                    tssData = 0.0;
+//                } else {
+//                    String dataReceiveTss = "";
+//                    for (int i = 0; i < tssString.length(); i++) {
+//                        int k = Integer.parseInt(String.valueOf(bodString.charAt(i)), 16);
+//                        dataReceiveTss = dataReceiveTss + String.format("%4s", Integer.toBinaryString(k)).replace(' ', '0');
+//                    }
+//
+//                    String dataReceiveTss0 = String.valueOf(dataReceiveTss.charAt(0));//sign of value: 0: +    1: -
+//                    String dataReceiveTss1 = dataReceiveTss.substring(1, 9);
+//                    String dataReceiveTss2 = dataReceiveTss.substring(9);
+//
+//                    int exponentTss = Integer.parseInt(dataReceiveTss1, 2) - 127;
+//
+//                    String mantissaTss = "1" + dataReceiveTss2.substring(0, exponentTss);
+//
+//                    String tgTss = dataReceiveTss2.substring(exponentTss);
+//                    int numberTss1 = Integer.parseInt(mantissaTss, 2);
+//                    double numberTss2 = 0.0;
+//
+//                    for (int j = 0; j < tgTss.length(); j++) {
+//                        numberTss2 += Character.getNumericValue(tgTss.charAt(j)) * Math.pow(2, -(j + 1));
+//                    }
+//
+//                    if (dataReceiveTss0.equals("0")) {
+//                        tssData = numberTss1 + numberTss2;
+//                    } else tssData = -(numberTss1 + numberTss2);
+//                }
 
                 this.disconnect();
 

@@ -45,7 +45,8 @@ class APIService {
         element["pH"],
         element["cod"],
         element["bod"],
-        element["tss"],
+        // element["tss"],
+        0.00, //đợi test thực tế xem đầu đo COD có đo đc TSS không. hiện tại giá trị TSS = BOD, dữ liệu nhận đc chỉ 1 thay vì phải nhận đc cả giá trị TSS và BOD
         element["nh4"],
         element["temp"],
       });

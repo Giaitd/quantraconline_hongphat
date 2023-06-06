@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:quantrac_online_hongphat/view/calibartion_screen/calibration.dart';
 import 'package:quantrac_online_hongphat/view/history_screen/history.dart';
 import 'package:quantrac_online_hongphat/view/notification_screen/notification.dart';
-import 'package:quantrac_online_hongphat/view/set_id/set_id.dart';
+import 'package:quantrac_online_hongphat/view/qrcode/generate_qrcode.dart';
 import 'package:quantrac_online_hongphat/view/setup_screen/setup.dart';
 import '../../api/api_service.dart';
 import '../../api/duLieuQuanTrac_model.dart';
@@ -32,7 +32,7 @@ class PopupScreen extends StatelessWidget {
   List<Data> menu = [
     Data(
       title: 'Thông báo',
-      screen: NotificationScreen(),
+      screen: const NotificationScreen(),
     ),
     Data(
       title: 'Nhật ký',
@@ -40,11 +40,15 @@ class PopupScreen extends StatelessWidget {
     ),
     Data(
       title: 'Cài đặt cảnh báo',
-      screen: SetupScreen(),
+      screen: const SetupScreen(),
     ),
     Data(
       title: 'Hiệu chuẩn đầu đo',
-      screen: Calibration(),
+      screen: const Calibration(),
+    ),
+    Data(
+      title: 'QRCode',
+      screen: const GenerateQRCode(),
     ),
   ];
 
@@ -69,7 +73,7 @@ class PopupScreen extends StatelessWidget {
                   height: 10 / sizeDevice,
                 ),
                 SizedBox(
-                  height: 370 / sizeDevice,
+                  height: 420 / sizeDevice,
                   width: 350 / sizeDevice,
                   child: ListView.builder(
                     padding: EdgeInsets.zero,
