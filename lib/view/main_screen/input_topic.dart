@@ -108,6 +108,33 @@ class _InputTopicState extends State<InputTopic> {
                             ),
                           ),
                         ),
+
+                        //server
+                        Container(
+                          margin: EdgeInsets.fromLTRB(150 / sizeDevice,
+                              100 / sizeDevice, 150 / sizeDevice, 0),
+                          child: TextFormField(
+                            enabled: (!globals.lockDevice.value),
+                            textAlign: TextAlign.center,
+                            onChanged: (text) {
+                              globals.mqttServerSet.value = text;
+                            },
+                            decoration: InputDecoration(
+                                fillColor: Colors.white,
+                                filled: true,
+                                hintText: "${globals.mapSetup["mqttServer"]}",
+                                border: const OutlineInputBorder(
+                                    borderRadius: BorderRadius.zero)),
+                            style: TextStyle(
+                              fontSize: 30 / sizeDevice,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            keyboardType: TextInputType.text,
+                          ),
+                        ),
+
+                        //topic
                         Container(
                           margin: EdgeInsets.fromLTRB(150 / sizeDevice,
                               100 / sizeDevice, 150 / sizeDevice, 0),
@@ -139,10 +166,21 @@ class _InputTopicState extends State<InputTopic> {
                                   backgroundColor:
                                       const Color.fromARGB(255, 5, 114, 10)),
                               onPressed: () {
-                                if (globals.lockDevice.value == false &&
-                                    globals.pubTopicSet.value != "") {
-                                  storage.writeDataSetup(6);
-                                  storage.readDataSetup(6);
+                                if (globals.lockDevice.value == false) {
+                                  if (globals.pubTopicSet.value !=
+                                          globals.mapSetup["pubTopicSet"] &&
+                                      globals.pubTopicSet.value != "") {
+                                    storage.writeDataSetup(6);
+                                    storage.readDataSetup(6);
+                                  }
+
+                                  if (globals.mqttServerSet.value !=
+                                          globals.mapSetup["mqttServer"] &&
+                                      globals.mqttServerSet.value != "") {
+                                    storage.writeDataSetup(11);
+                                    storage.readDataSetup(11);
+                                  }
+
                                   globals.lockDevice.value = true;
                                 }
                               },

@@ -70,6 +70,7 @@ class Globals extends GetxService {
 
   //topic pub data to app mobile
   RxString pubTopicSet = "quantracdaura".obs;
+  RxString mqttServerSet = "broker.emqx.io".obs;
 
   //DIDO
   RxInt valueDO0 = 0.obs;
@@ -86,7 +87,6 @@ class Globals extends GetxService {
 
   /// //data save for setup parameter
   Map<String, dynamic> mapSetup = {
-    //ph1
     "pHMinSet": "6.5",
     "pHMaxSet": "8.5",
     "codSet": "100.0",
@@ -98,6 +98,7 @@ class Globals extends GetxService {
     "offsetCOD": "0.0",
     "offsetNH4": "0.0",
     "thietBiId": "64746b0adf7ac34be49ce692",
+    "mqttServer": "broker.emqx.io",
   }.obs;
 
   List<String> keySetup = [
@@ -112,19 +113,24 @@ class Globals extends GetxService {
     "offsetCOD",
     "offsetNH4",
     "thietBiId",
+    "mqttServer",
   ].obs;
+  // ignore: prefer_typing_uninitialized_variables
+  var client;
 
   @override
   void onInit() {
     super.onInit();
     getDeviceId();
-    mqttConnect();
+    Future.delayed(const Duration(milliseconds: 3000), () {
+      mqttConnect();
 
-    Timer.periodic(const Duration(milliseconds: 2000), (timer) {
-      setDataToNative();
-      _getData();
-      _convertData();
-      publishMqtt();
+      Timer.periodic(const Duration(milliseconds: 2000), (timer) {
+        setDataToNative();
+        _getData();
+        _convertData();
+        publishMqtt();
+      });
     });
   }
 
@@ -135,6 +141,10 @@ class Globals extends GetxService {
       AndroidDeviceInfo deviceData = await deviceInfoPlugin.androidInfo;
       androidBoxInfo.value = deviceData.androidId!;
     }
+    Future.delayed(const Duration(milliseconds: 1500), () {
+      client = MqttServerClient(
+          mapSetup["mqttServer"], ''); //khởi tạo client cho mqtt
+    });
   }
 
   /// ============ MethodChannel=== send/get data to/from native ====================== */
@@ -238,9 +248,8 @@ class Globals extends GetxService {
   }
 
   //mqtt ===============================================================================================================================================================
-  final client = MqttServerClient('broker.emqx.io', '');
+  // final client = MqttServerClient('broker.emqx.io', '');
   // final client = MqttServerClient('broker.hivemq.com', '');
-
   Future<void> mqttConnect() async {
     print('enable mqtt');
 
@@ -309,7 +318,7 @@ class Globals extends GetxService {
       "temp": "${temp.value}",
     }));
 
-    client.subscribe(pubTopic, MqttQos.exactlyOnce);
+    // client.subscribe(pubTopic, MqttQos.exactlyOnce);
 
     print('EXAMPLE::Publishing our topic');
     client.publishMessage(pubTopic, MqttQos.exactlyOnce, builder.payload!);

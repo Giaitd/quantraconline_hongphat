@@ -269,7 +269,7 @@ class PopupScreen extends StatelessWidget {
                         fontSize: 24 / globals.sizeDevice.value,
                       ),
                       border: const OutlineInputBorder()),
-                  keyboardType: TextInputType.text,
+                  keyboardType: TextInputType.number,
                   style: TextStyle(
                     fontFamily: 'Roboto Mono',
                     color: Colors.black,

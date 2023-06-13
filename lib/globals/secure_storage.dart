@@ -25,6 +25,7 @@ class SecureStorage extends GetxService {
       globals.offsetCOD.value.toString(),
       globals.offsetNH4.value.toString(),
       globals.thietBiId.value,
+      globals.mqttServerSet.value,
     ];
     await storage.write(
       key: globals.keySetup[i],
