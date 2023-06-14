@@ -56,12 +56,12 @@ class Globals extends GetxService {
   RxDouble nh4Set = 10.0.obs;
 
   //data quan trắc
-  RxDouble pH = 7.0.obs;
-  RxDouble temp = 27.7.obs;
-  RxDouble cod = 100.95.obs;
-  RxDouble bod = 90.05.obs;
-  RxDouble tss = 75.12.obs;
-  RxDouble nh4 = 0.59.obs;
+  RxDouble pH = 0.0.obs;
+  RxDouble temp = 0.0.obs;
+  RxDouble cod = 0.0.obs;
+  RxDouble bod = 0.0.obs;
+  RxDouble tss = 0.0.obs;
+  RxDouble nh4 = 0.0.obs;
 
   //data offset
   RxDouble offsetpH = 0.0.obs;

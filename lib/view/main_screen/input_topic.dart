@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:quantrac_online_hongphat/view/main_screen/main_screen.dart';
 import '../../globals/globals.dart';
 import '../../globals/secure_storage.dart';
 import '../popup_screen/popup_screen.dart';
@@ -101,7 +100,7 @@ class _InputTopicState extends State<InputTopic> {
                           padding: EdgeInsets.fromLTRB(35 / sizeDevice,
                               35 / sizeDevice, 35 / sizeDevice, 0),
                           child: Text(
-                            "Nhập tên topic publish để truyền dữ liệu lên app mobile qua phương thức mqtt",
+                            "Nhập tên server và topic để truyền dữ liệu lên app mobile qua phương thức mqtt",
                             style: TextStyle(
                               fontSize: 28 / sizeDevice,
                               fontWeight: FontWeight.w500,
@@ -111,8 +110,20 @@ class _InputTopicState extends State<InputTopic> {
 
                         //server
                         Container(
+                          padding:
+                              EdgeInsets.fromLTRB(0, 50 / sizeDevice, 0, 0),
+                          child: Text(
+                            "Nhập tên server",
+                            style: TextStyle(
+                              fontSize: 30 / sizeDevice,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Container(
                           margin: EdgeInsets.fromLTRB(150 / sizeDevice,
-                              100 / sizeDevice, 150 / sizeDevice, 0),
+                              20 / sizeDevice, 150 / sizeDevice, 0),
                           child: TextFormField(
                             enabled: (!globals.lockDevice.value),
                             textAlign: TextAlign.center,
@@ -136,8 +147,20 @@ class _InputTopicState extends State<InputTopic> {
 
                         //topic
                         Container(
+                          padding:
+                              EdgeInsets.fromLTRB(0, 50 / sizeDevice, 0, 0),
+                          child: Text(
+                            "Nhập tên topic",
+                            style: TextStyle(
+                              fontSize: 30 / sizeDevice,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Container(
                           margin: EdgeInsets.fromLTRB(150 / sizeDevice,
-                              100 / sizeDevice, 150 / sizeDevice, 0),
+                              20 / sizeDevice, 150 / sizeDevice, 0),
                           child: TextFormField(
                             enabled: (!globals.lockDevice.value),
                             textAlign: TextAlign.center,
@@ -169,7 +192,9 @@ class _InputTopicState extends State<InputTopic> {
                                 if (globals.lockDevice.value == false) {
                                   if (globals.pubTopicSet.value !=
                                           globals.mapSetup["pubTopicSet"] &&
-                                      globals.pubTopicSet.value != "") {
+                                      globals.pubTopicSet.value != "" &&
+                                      globals.pubTopicSet.value !=
+                                          "quantracdaura") {
                                     storage.writeDataSetup(6);
                                     storage.readDataSetup(6);
                                   }
